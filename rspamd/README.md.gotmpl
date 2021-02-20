@@ -48,16 +48,6 @@ rspamadm dkim_keygen -b 2048 -s 2020 -k /var/lib/rspamd/dkim/2020.key > /var/lib
 
 Take care to use the same key name as in values config.dkimSelector.
 
-## Alternative way to check health
-
-```sh
-curl -f -L http://localhost:11334/ || exit 1
-```
-
-## References
-
-- [Mailserver mit Dovecot, Postfix, MySQL und Rspamd unter Debian 10 Buster](https://thomas-leister.de/mailserver-debian-buster/) by Thomas Leister
-
 {{ template "chart.homepageLine" . }}
 
 {{ template "chart.maintainersSection" . }}
@@ -67,3 +57,16 @@ curl -f -L http://localhost:11334/ || exit 1
 {{ template "chart.requirementsSection" . }}
 
 {{ template "chart.valuesSection" . }}
+
+## To do
+
+- check alternative way for health check
+
+```sh
+curl -f -L http://localhost:11334/ || exit 1
+```
+
+
+## References
+
+- [Mailserver mit Dovecot, Postfix, MySQL und Rspamd unter Debian 10 Buster](https://thomas-leister.de/mailserver-debian-buster/) by Thomas Leister
