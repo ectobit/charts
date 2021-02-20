@@ -1,7 +1,7 @@
 apiVersion: v2
 name: vanity
 description: Go vanity imports HTTP server
-icon: https://avatars.githubusercontent.com/u/72323607?s=400&u=b47c57126684a79abb8fa75c1b49e22827dc7602&v=4
+icon: https://ectobit.com/logov.svg
 
 # A chart can be either an 'application' or a 'library' chart.
 #
