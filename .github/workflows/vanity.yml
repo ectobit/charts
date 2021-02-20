@@ -33,7 +33,7 @@ jobs:
           curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
           chmod 700 get_helm.sh
           ./get_helm.sh
-          go get golang.stackrox.io/kube-linter/cmd/kube-linter
+          # go get golang.stackrox.io/kube-linter/cmd/kube-linter
 
       - name: Check out
         uses: actions/checkout@v2

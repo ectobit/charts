@@ -9,6 +9,10 @@ Helm charts by Ectobit
 
 `helm repo add ectobit https://charts.ectobit.com`
 
+## Charts
+
+- [vanity](vanity/README.md) - Go vanity imports HTTP server
+
 ## Push chart to repository (basic authentication required)
 
 `helm push vanity/ ectobit`
