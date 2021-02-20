@@ -1,0 +1,139 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "rspamd.fullname" . }}
+  labels:
+    {{- include "rspamd.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "rspamd.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ tpl (toYaml .Values.config) . | sha256sum }}
+    {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+        {{- include "rspamd.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "rspamd.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: proxy
+              containerPort: 11332
+              protocol: TCP
+            - name: rspamd
+              containerPort: 11333
+              protocol: TCP
+            - name: controller
+              containerPort: 11334
+              protocol: TCP
+            - name: fuzzy
+              containerPort: 11335
+              protocol: TCP
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/rspamd
+          {{- if .Values.redis.enabled }}
+            - name: config
+              mountPath: /etc/rspamd/local.d/redis.conf
+              subPath: redis.conf
+            - name: config
+              mountPath: /etc/rspamd/local.d/history_redis.conf
+              subPath: history_redis.conf
+          {{- end }}
+            - name: config
+              mountPath: /etc/rspamd/local.d/worker-normal.inc
+              subPath: worker-normal.inc
+            - name: config
+              mountPath: /etc/rspamd/local.d/worker-proxy.inc
+              subPath: worker-proxy.inc
+            - name: config
+              mountPath: /etc/rspamd/local.d/dkim_signing.conf
+              subPath: dkim_signing.conf
+            - name: config
+              mountPath: /etc/rspamd/local.d/arc.conf
+              subPath: dkim_signing.conf
+            - name: config
+              mountPath: /etc/rspamd/local.d/milter_headers.conf
+              subPath: milter_headers.conf
+            - name: config
+              mountPath: /etc/rspamd/local.d/classifier-bayes.conf
+              subPath: classifier-bayes.conf
+            - name: config
+              mountPath: /etc/rspamd/override.d/classifier-bayes.conf
+              subPath: override-classifier-bayes.conf
+            - name: config
+              mountPath: /etc/rspamd/local.d/multimap.conf
+              subPath: multimap.conf
+            - name: config
+              mountPath: /etc/rspamd/local.d/whitelist_ip.map
+              subPath: whitelist_ip.map
+            - name: config
+              mountPath: /etc/rspamd/local.d/whitelist_from.map
+              subPath: whitelist_from.map
+            - name: config
+              mountPath: /etc/rspamd/local.d/blacklist_ip.map
+              subPath: blacklist_ip.map
+            - name: config
+              mountPath: /etc/rspamd/local.d/blacklist_from.map
+              subPath: blacklist_from.map
+          livenessProbe:
+            exec:
+              command:
+                - curl
+                - -f
+                - -L
+                - http://localhost:11334/
+            initialDelaySeconds: 10
+            timeoutSeconds: 5
+            periodSeconds: 60
+          readinessProbe:
+            exec:
+              command:
+                - curl
+                - -f
+                - -L
+                - http://localhost:11334/
+            initialDelaySeconds: 10
+            timeoutSeconds: 5
+            periodSeconds: 60
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: data
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ default (include "rspamd.fullname" .) .Values.persistence.existingClaim }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        - name: config
+          configMap:
+            name: {{include "rspamd.fullname" .}}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

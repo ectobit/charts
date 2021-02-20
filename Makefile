@@ -1,7 +1,9 @@
 .PHONY: gen-chart-docs lint
 
 lint:
-	helm lint charts/vanity
+	helm lint vanity
+	helm lint rspamd
 
 gen-chart-docs:
-	helm-docs charts/vanity
+	helm-docs vanity
+	helm-docs rspamd

@@ -1,17 +1,17 @@
-name: vanity
+name: rspamd
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'vanity/**'
+      - 'rspamd/**'
   pull_request:
     paths:
-      - 'vanity/**'
+      - 'rspamd/**'
 
 jobs:
-  vanity:
+  rspamd:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Helm
@@ -23,9 +23,9 @@ jobs:
         uses: actions/checkout@v2
       - name: Lint
         run: |
-          helm lint vanity
+          helm lint rspamd
       - name: Release
         run: |
           helm plugin install https://github.com/chartmuseum/helm-push.git
           helm repo add ectobit https://charts.ectobit.com --username ${{secrets.HELM_REPO_USERNAME}} --password "${{secrets.HELM_REPO_PASSWORD}}"
-          helm push --debug vanity/ ectobit
+          helm push --debug rspamd/ ectobit

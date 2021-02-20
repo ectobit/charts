@@ -1,0 +1,102 @@
+# Default values for rspamd.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: ectobit/rspamd
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ''
+
+imagePullSecrets: []
+nameOverride: ''
+fullnameOverride: ''
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ''
+
+podAnnotations: {}
+
+podSecurityContext:
+  fsGroup: 101
+
+securityContext:
+  {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  controllerPort: 11334
+  port: 11333
+  proxyPort: 11332
+
+resources:
+  {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+config:
+  blacklist:
+    fromMap: ''
+    ipMap: ''
+  whitelist:
+    fromMap: ''
+    ipMap: ''
+  milterHeaders: |
+    use = ["x-spamd-bar", "x-spam-level", "authentication-results"];
+    authenticated_headers = ["authentication-results"];
+  dkimSelector: 2020
+  multiMap: |
+    WHITELIST_IP {
+      type = "ip";
+      map = "$CONFDIR/local.d/whitelist_ip.map";
+      description = "Local ip whitelist";
+      action = "accept";
+    }
+
+    WHITELIST_FROM {
+      type = "from";
+      map = "$CONFDIR/local.d/whitelist_from.map";
+      description = "Local from whitelist";
+      action = "accept";
+    }
+  overrideClassifierBayes: |
+    autolearn = true;
+
+redis:
+  enabled: false
+
+persistence:
+  enabled: false
+  # existingClaim: ""
+  accessMode: ReadWriteOnce
+  size: 128Mi
+  # storageClass: ""
+  annotations: {}

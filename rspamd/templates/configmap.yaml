@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "rspamd.fullname" . }}
+  labels: {{- include "rspamd.labels" . | nindent 4}}
+data:
+{{- if .Values.redis.enabled }}
+  redis.conf: |
+    servers = "{{ .Release.Name }}-redis-master";
+  history_redis.conf: |
+    servers = {{ .Release.Name }}-redis-master:6379;
+    key_prefix = "rs_history";
+    nrows = 200;
+    compress = true;
+    subject_privacy = false;
+  classifier-bayes.conf: |
+    backend = "redis";
+{{- else }}
+  classifier-bayes.conf: ""
+{{- end }}
+  worker-normal.inc: |
+    bind_socket = "*:11333";
+  worker-proxy.inc: |
+    bind_socket = "*:11332";
+    upstream "local" {
+      default = yes;
+      self_scan = yes;
+    }
+  dkim_signing.conf: |
+    path = "/var/lib/rspamd/dkim/$selector.key";
+    selector = {{ .Values.config.dkimSelector | quote }};
+    # Enable DKIM signing for alias sender addresses
+    allow_username_mismatch = true;
+  milter_headers.conf: |
+{{ .Values.config.milterHeaders | indent 4 }}
+  override-classifier-bayes.conf: |
+{{ .Values.config.overrideClassifierBayes | indent 4 }}
+  multimap.conf: |
+{{ .Values.config.multiMap | indent 4 }}
+  whitelist_ip.map: |
+{{ .Values.config.whitelist.ipMap | indent 4 }}
+  whitelist_from.map: |
+{{ .Values.config.whitelist.fromMap | indent 4 }}
+  blacklist_ip.map: |
+{{ .Values.config.blacklist.ipMap | indent 4 }}
+  blacklist_from.map: |
+{{ .Values.config.blacklist.fromMap | indent 4 }}

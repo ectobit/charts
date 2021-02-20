@@ -1,0 +1,60 @@
+{{ template "chart.header" . }}
+{{ template "chart.deprecationWarning" . }}
+
+{{ template "chart.description" . }}
+
+{{ template "chart.badgesSection" . }} [![rspamd](https://github.com/ectobit/charts/actions/workflows/rspamd.yml/badge.svg)](https://github.com/ectobit/charts/actions/workflows/rspamd.yml)
+
+## Add repository
+
+`helm repo add ectobit https://charts.ectobit.com`
+
+## Install
+
+```sh
+helm install rspamd ectobit/rspamd
+```
+
+## Helmfile
+
+```yaml
+releases:
+- name: rspamd
+  chart: ectobit/rspamd
+  - redis:
+      enabled: true
+      cluster:
+        enabled: false
+      serviceAccount:
+        create: true
+      rbac:
+        create: true
+      usePassword: false
+      master:
+        persistence:
+          enabled: true
+          size: 128Mi
+  - persistence:
+      enabled: true
+      size: 4Mi
+```
+
+## Alternative way to check health
+
+```sh
+curl -f -L http://localhost:11334/ || exit 1
+```
+
+## References
+
+- [Mailserver mit Dovecot, Postfix, MySQL und Rspamd unter Debian 10 Buster](https://thomas-leister.de/mailserver-debian-buster/) by Thomas Leister
+
+{{ template "chart.homepageLine" . }}
+
+{{ template "chart.maintainersSection" . }}
+
+{{ template "chart.sourcesSection" . }}
+
+{{ template "chart.requirementsSection" . }}
+
+{{ template "chart.valuesSection" . }}
