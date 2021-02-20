@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'vanity/**'
-  pull_request:
-    paths:
-      - 'vanity/**'
+  #   paths:
+  #     - 'vanity/**'
+  # pull_request:
+  #   paths:
+  #     - 'vanity/**'
 
 jobs:
   vanity:
