@@ -11,7 +11,7 @@ on:
       - 'vanity/**'
 
 jobs:
-  lint:
+  vanity:
     runs-on: ubuntu-latest
     steps:
       - name: Set up go
@@ -46,5 +46,7 @@ jobs:
       - name: Release
         run: |
           helm plugin install https://github.com/chartmuseum/helm-push.git
-          helm repo add ectobit https://charts.ectobit.com
+          helm repo add ectobit https://charts.ectobit.comlintlinlintlintt
+          echo ${HELM_REPO_USERNAME}
+          echo ${HELM_REPO_PASSWORD}
           helm push vanity/ ectobit
