@@ -39,6 +39,15 @@ releases:
       size: 4Mi
 ```
 
+## Additional configuration (manual)
+
+```sh
+rspamadm configwizard
+rspamadm dkim_keygen -b 2048 -s 2020 -k /var/lib/rspamd/dkim/2020.key > /var/lib/rspamd/dkim/2020.txt
+```
+
+Take care to use the same key name as in values config.dkimSelector.
+
 ## Alternative way to check health
 
 ```sh
