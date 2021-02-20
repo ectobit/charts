@@ -47,6 +47,5 @@ jobs:
         run: |
           helm plugin install https://github.com/chartmuseum/helm-push.git
           helm repo add ectobit https://charts.ectobit.com
-          cat ~/.cfconfig
           cat ~/.helm/repository/repositories.yaml
           helm push --debug vanity/ ectobit
