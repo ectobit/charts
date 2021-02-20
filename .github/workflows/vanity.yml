@@ -42,3 +42,9 @@ jobs:
         run: |
           helm lint vanity
           # kube-linter lint vanity
+
+      - name: Release
+        run: |
+          helm plugin install https://github.com/chartmuseum/helm-push.git
+          helm repo add ectobit https://charts.ectobit.com
+          helm push vanity/ ectobit

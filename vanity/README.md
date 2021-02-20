@@ -2,7 +2,7 @@
 
 Go vanity imports HTTP server
 
-![Version: 0.2.5](https://img.shields.io/badge/Version-0.2.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.2.5](https://img.shields.io/badge/AppVersion-0.2.5-informational?style=flat-square)  [![vanity](https://github.com/ectobit/charts/actions/workflows/vanity.yml/badge.svg)](https://github.com/ectobit/charts/actions/workflows/vanity.yml)
+![Version: 0.2.6](https://img.shields.io/badge/Version-0.2.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.2.6](https://img.shields.io/badge/AppVersion-0.2.6-informational?style=flat-square)  [![vanity](https://github.com/ectobit/charts/actions/workflows/vanity.yml/badge.svg)](https://github.com/ectobit/charts/actions/workflows/vanity.yml)
 
 ## Add repository
 
@@ -54,7 +54,7 @@ releases:
 | config.packages | object | `{}` |  |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.repository | string | `"quay.io/ectobit/vanity"` |  |
+| image.repository | string | `"ectobit/vanity"` |  |
 | image.tag | string | `""` |  |
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations | object | `{}` |  |
