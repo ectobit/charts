@@ -14,21 +14,21 @@ jobs:
   vanity:
     runs-on: ubuntu-latest
     steps:
-      - name: Set up go
-        uses: actions/setup-go@v2
-        with:
-          go-version: ^1.16
-        id: go
+      # - name: Set up go
+      #   uses: actions/setup-go@v2
+      #   with:
+      #     go-version: ^1.16
+      #   id: go
 
-      - name: Set up cache
-        uses: actions/cache@v2.1.4
-        with:
-          path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
+      # - name: Set up cache
+      #   uses: actions/cache@v2.1.4
+      #   with:
+      #     path: ~/go/pkg/mod
+      #     key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-go-
 
-      - name: Set up linters
+      - name: Set up Helm
         run: |
           curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
           chmod 700 get_helm.sh
@@ -47,6 +47,4 @@ jobs:
         run: |
           helm plugin install https://github.com/chartmuseum/helm-push.git
           helm repo add ectobit https://charts.ectobit.com
-          echo ${HELM_REPO_USERNAME}
-          echo ${HELM_REPO_PASSWORD}
           helm push vanity/ ectobit
