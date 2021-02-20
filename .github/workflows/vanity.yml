@@ -46,7 +46,7 @@ jobs:
       - name: Release
         run: |
           helm plugin install https://github.com/chartmuseum/helm-push.git
-          helm repo add ectobit https://charts.ectobit.comlintlinlintlintt
+          helm repo add ectobit https://charts.ectobit.com
           echo ${HELM_REPO_USERNAME}
           echo ${HELM_REPO_PASSWORD}
           helm push vanity/ ectobit
