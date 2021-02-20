@@ -1,0 +1,44 @@
+name: vanity
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'vanity/**'
+  pull_request:
+    paths:
+      - 'vanity/**'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ^1.16
+        id: go
+
+      - name: Set up cache
+        uses: actions/cache@v2.1.4
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Set up linters
+        run: |
+          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+          chmod 700 get_helm.sh
+          ./get_helm.sh
+          go get golang.stackrox.io/kube-linter/cmd/kube-linter
+
+      - name: Check out
+        uses: actions/checkout@v2
+
+      - name: Lint
+        run: |
+          helm lint vanity
+          # kube-linter lint vanity
