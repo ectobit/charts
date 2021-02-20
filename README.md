@@ -2,6 +2,7 @@
 
 Helm charts by Ectobit
 
+[![vanity](https://github.com/ectobit/charts/actions/workflows/vanity.yml/badge.svg)](https://github.com/ectobit/charts/actions/workflows/vanity.yml)
 [![License](https://img.shields.io/github/license/ectobit/vanity)](LICENSE)
 
 ## Add repository
