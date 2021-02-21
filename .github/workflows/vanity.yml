@@ -11,7 +11,7 @@ on:
   #     - 'vanity/**'
 
 jobs:
-  vanity:
+  build:
     runs-on: ubuntu-latest
     env:
       CHART: vanity
@@ -36,6 +36,6 @@ jobs:
           # gpg --import ~/.gnupg/pubring.gpg
       - name: Release
         run: |
-          fILE_PATH=$(helm package --sign --key 'Boban Acimovic' ${{ env.CHART }})
+          FILE_PATH=$(helm package --sign --key 'Boban Acimovic' ${{ env.CHART }})
           FILE=$(basename ${FILE_PATH})
           curl -u "${{secrets.HELM_REPO_USERNAME}}:${{secrets.HELM_REPO_PASSWORD}}" -F "chart=@${FILE}" -F "prov=@${FILE}.prov" https://charts.ectobit.com/api/charts
