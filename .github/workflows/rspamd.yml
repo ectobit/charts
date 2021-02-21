@@ -11,7 +11,7 @@ on:
       - 'rspamd/**'
 
 jobs:
-  rspamd:
+  build:
     runs-on: ubuntu-latest
     env:
       CHART: rspamd
@@ -27,12 +27,17 @@ jobs:
         run: |
           helm lint ${{ env.CHART }}
       - name: Configure GPG key
+        env:
+          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
         run: |
           mkdir -p ~/.gnupg/
-          echo -n ${{ secrets.GPG_SIGNING_KEY }} | base64 -d > ~/.gnupg/pubring.gpg
-          gpg --import ~/.gnupg/pubring.gpg
+          printf "${GPG_SIGNING_KEY}" | base64 -d > ~/.gnupg/pubring.gpg
       - name: Release
         run: |
-          PATH=$(helm package --sign --key 'Boban Acimovic' ${{ env.CHART }})
-          FILE=$(basename ${PATH})
-          curl -u "${{secrets.HELM_REPO_USERNAME}}:${{secrets.HELM_REPO_PASSWORD}}" -F "chart=@${FILE}" -F "prov=@${FILE}.prov" https://charts.ectobit.com/api/charts
+          FILE_PATH=$(helm package --sign --key 'Boban Acimovic' ${{ env.CHART }} | awk '{print $8}')
+          FILE=$(basename ${FILE_PATH})
+          echo "Uploading ${FILE} chart and provenance ${FILE}.prov"
+          curl -u "${{secrets.HELM_REPO_USERNAME}}:${{secrets.HELM_REPO_PASSWORD}}" \
+            -F "chart=@${FILE}" \
+            -F "prov=@${FILE}.prov" \
+            https://charts.ectobit.com/api/charts

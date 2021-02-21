@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - main
-  #   paths:
-  #     - 'vanity/**'
-  # pull_request:
-  #   paths:
-  #     - 'vanity/**'
+    paths:
+      - 'vanity/**'
+  pull_request:
+    paths:
+      - 'vanity/**'
 
 jobs:
   build:
@@ -30,14 +30,13 @@ jobs:
         env:
           GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
         run: |
-          set -ex
           mkdir -p ~/.gnupg/
           printf "${GPG_SIGNING_KEY}" | base64 -d > ~/.gnupg/pubring.gpg
-          # gpg --import ~/.gnupg/pubring.gpg
       - name: Release
         run: |
           FILE_PATH=$(helm package --sign --key 'Boban Acimovic' ${{ env.CHART }} | awk '{print $8}')
           FILE=$(basename ${FILE_PATH})
+          echo "Uploading ${FILE} chart and provenance ${FILE}.prov"
           curl -u "${{secrets.HELM_REPO_USERNAME}}:${{secrets.HELM_REPO_PASSWORD}}" \
             -F "chart=@${FILE}" \
             -F "prov=@${FILE}.prov" \
