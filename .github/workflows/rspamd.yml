@@ -13,6 +13,8 @@ on:
 jobs:
   rspamd:
     runs-on: ubuntu-latest
+    env:
+      CHART: rspamd
     steps:
       - name: Set up Helm
         run: |
@@ -23,9 +25,14 @@ jobs:
         uses: actions/checkout@v2
       - name: Lint
         run: |
-          helm lint rspamd
+          helm lint ${{ env.CHART }}
+      - name: Configure GPG key
+        run: |
+          mkdir -p ~/.gnupg/
+          echo -n ${{ secrets.GPG_SIGNING_KEY }} | base64 -d > ~/.gnupg/pubring.gpg
+          gpg --import ~/.gnupg/pubring.gpg
       - name: Release
         run: |
-          helm plugin install https://github.com/chartmuseum/helm-push.git
-          helm repo add ectobit https://charts.ectobit.com --username ${{secrets.HELM_REPO_USERNAME}} --password "${{secrets.HELM_REPO_PASSWORD}}"
-          helm push --debug rspamd/ ectobit
+          PATH=$(helm package --sign --key 'Boban Acimovic' ${{ env.CHART }})
+          FILE=$(basename ${PATH})
+          curl -u "${{secrets.HELM_REPO_USERNAME}}:${{secrets.HELM_REPO_PASSWORD}}" -F "chart=@${FILE}" -F "prov=@${FILE}.prov" https://charts.ectobit.com/api/charts

@@ -1,6 +1,16 @@
 apiVersion: v2
 name: vanity
-description: Go vanity imports HTTP server
+description: Go vanity imports HTTP server Helm chart for Kubernetes
+keywords:
+  - go
+  - golang
+  - vanity
+  - imports
+  - http
+  - server
+home: https://github.com/ectobit/charts
+sources:
+  - https://github.com/ectobit/vanity
 icon: https://ectobit.com/logov.svg
 
 # A chart can be either an 'application' or a 'library' chart.
@@ -16,7 +26,7 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.2.7
+version: 0.2.8
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to

@@ -1,6 +1,16 @@
 apiVersion: v2
 name: rspamd
-description: Rspamd
+description: Rspamd Helm chart for Kubernetes
+keywords:
+  - rspamd
+  - alpine
+  - proxy
+  - controller
+  - redis
+home: https://github.com/ectobit/charts
+sources:
+  - https://github.com/ectobit/charts/tree/main/rspamd
+  - https://github.com/ectobit/container-images/tree/main/rspamd
 icon: https://ectobit.com/logov.svg
 
 # A chart can be either an 'application' or a 'library' chart.
@@ -16,7 +26,7 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.8.1
+version: 0.8.2
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
