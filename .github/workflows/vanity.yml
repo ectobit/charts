@@ -27,10 +27,12 @@ jobs:
         run: |
           helm lint ${{ env.CHART }}
       - name: Configure GPG key
+        env:
+          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
         run: |
           set -ex
           mkdir -p ~/.gnupg/
-          echo -n ${{ secrets.GPG_SIGNING_KEY }} | base64 -d > ~/.gnupg/pubring.gpg
+          printf "${GPG_SIGNING_KEY}" | base64 -d > ~/.gnupg/pubring.gpg
           # gpg --import ~/.gnupg/pubring.gpg
       - name: Release
         run: |
