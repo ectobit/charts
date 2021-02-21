@@ -4,17 +4,17 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'vanity/**'
-  pull_request:
-    paths:
-      - 'vanity/**'
+  #   paths:
+  #     - 'vanity/**'
+  # pull_request:
+  #   paths:
+  #     - 'vanity/**'
 
 jobs:
   vanity:
     runs-on: ubuntu-latest
     env:
-      CHART: rspamd
+      CHART: vanity
     steps:
       - name: Set up Helm
         run: |
@@ -30,7 +30,7 @@ jobs:
         run: |
           mkdir -p ~/.gnupg/
           echo -n ${{ secrets.GPG_SIGNING_KEY }} | base64 -d > ~/.gnupg/pubring.gpg
-          gpg --import ~/.gnupg/pubring.gpg
+          # gpg --import ~/.gnupg/pubring.gpg
       - name: Release
         run: |
           PATH=$(helm package --sign --key 'Boban Acimovic' ${{ env.CHART }})
