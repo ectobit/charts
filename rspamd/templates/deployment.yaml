@@ -48,6 +48,7 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /var/lib/rspamd
+              subPath: {{ .Values.persistence.subPath }}
           {{- if .Values.redis.enabled }}
             - name: config
               mountPath: /etc/rspamd/local.d/redis.conf
