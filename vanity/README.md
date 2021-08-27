@@ -65,8 +65,7 @@ releases:
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.enabled | bool | `false` |  |
-| ingress.hosts[0].host | string | `"chart-example.local"` |  |
-| ingress.hosts[0].paths | list | `[]` |  |
+| ingress.hosts | list | `[{"host":"chart-example.local","paths":[]}]` |  kubernetes.io/tls-acme: "true" |
 | ingress.tls | list | `[]` |  |
 | logLevel | string | `"info"` |  |
 | nameOverride | string | `""` |  |
@@ -80,5 +79,5 @@ releases:
 | service.type | string | `"ClusterIP"` |  |
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.create | bool | `true` |  |
-| serviceAccount.name | string | `""` |  |
+| serviceAccount.name | string | `""` |  If not set and create is true, a name is generated using the fullname template |
 | tolerations | list | `[]` |  |
