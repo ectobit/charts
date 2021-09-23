@@ -21,7 +21,7 @@ helm install vanity ectobit/vanity \
 ```yaml
 releases:
 - name: vanity
-  chart: vanity/vanity
+  chart: ectobit/vanity
   namespace: default
   values:
   - config:

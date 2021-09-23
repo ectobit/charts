@@ -3,7 +3,7 @@
 
 {{ template "chart.description" . }}
 
-{{ template "chart.badgesSection" . }} [![vanity](https://github.com/ectobit/charts/actions/workflows/vanity.yml/badge.svg)](https://github.com/ectobit/charts/actions/workflows/vanity.yml)
+{{ template "chart.badgesSection" . }} [![adminer](https://github.com/ectobit/charts/actions/workflows/adminer.yml/badge.svg)](https://github.com/ectobit/charts/actions/workflows/adminer.yml)
 
 ## Add repository
 
@@ -12,34 +12,30 @@
 ## Install
 
 ```sh
-helm install vanity ectobit/vanity \
-  --set config.domain=your-domain.com \
-  --set config.packages.your_package=https://github.com/your_account/your_repo
+helm install adminer ectobit/adminer
 ```
 
 ## Helmfile
 
 ```yaml
 releases:
-- name: vanity
-  chart: ectobit/vanity
+- name: adminer
+  chart: ectobit/adminer
   namespace: default
   values:
-  - config:
-      domain: your-domain.com
-      packages:
-        your_package: https://github.com/your_account/your_repo
   - ingress:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: nginx
       hosts:
-      - host: your-domain.com
-        paths: ["/"]
+      - host: adminer.your-domain.com
+        paths:
+        - path: /
+          pathType: Prefix
       tls:
       - secretName: your-domain-com-tls
         hosts:
-        - your-domain.com
+        - adminer.your-domain.com
 ```
 
 {{ template "chart.homepageLine" . }}

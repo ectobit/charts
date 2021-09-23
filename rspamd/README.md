@@ -2,7 +2,7 @@
 
 Rspamd Helm chart for Kubernetes
 
-![Version: 0.8.6](https://img.shields.io/badge/Version-0.8.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.3.15-alpine3.14.2](https://img.shields.io/badge/AppVersion-2.3.15--alpine3.14.2-informational?style=flat-square) [![rspamd](https://github.com/ectobit/charts/actions/workflows/rspamd.yml/badge.svg)](https://github.com/ectobit/charts/actions/workflows/rspamd.yml)
+![Version: 0.8.6](https://img.shields.io/badge/Version-0.8.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.3.15-alpine3.14.2](https://img.shields.io/badge/AppVersion-2.3.15--alpine3.14.2-informational?style=flat-square)  [![rspamd](https://github.com/ectobit/charts/actions/workflows/rspamd.yml/badge.svg)](https://github.com/ectobit/charts/actions/workflows/rspamd.yml)
 
 ## Add repository
 
@@ -51,53 +51,53 @@ Take care to use the same key name as in values config.dkimSelector.
 
 ## Source Code
 
-- <https://github.com/ectobit/charts/tree/main/rspamd>
-- <https://github.com/ectobit/container-images/tree/main/rspamd>
+* <https://github.com/ectobit/charts/tree/main/rspamd>
+* <https://github.com/ectobit/container-images/tree/main/rspamd>
 
 ## Requirements
 
-| Repository                         | Name  | Version |
-| ---------------------------------- | ----- | ------- |
-| https://charts.bitnami.com/bitnami | redis | 15.0.3  |
+| Repository | Name | Version |
+|------------|------|---------|
+| https://charts.bitnami.com/bitnami | redis | 15.0.3 |
 
 ## Values
 
-| Key                            | Type   | Default                                                                                                                                                                                                                                                                                                            | Description                                                                    |
-| ------------------------------ | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| affinity                       | object | `{}`                                                                                                                                                                                                                                                                                                               |                                                                                |
-| config.blacklist.fromMap       | string | `""`                                                                                                                                                                                                                                                                                                               |                                                                                |
-| config.blacklist.ipMap         | string | `""`                                                                                                                                                                                                                                                                                                               |                                                                                |
-| config.dkimSelector            | int    | `2020`                                                                                                                                                                                                                                                                                                             |                                                                                |
-| config.milterHeaders           | string | `"use = [\"x-spamd-bar\", \"x-spam-level\", \"authentication-results\"];\nauthenticated_headers = [\"authentication-results\"];\n"`                                                                                                                                                                                |                                                                                |
-| config.multiMap                | string | `"WHITELIST_IP {\n type = \"ip\";\n map = \"$CONFDIR/local.d/whitelist_ip.map\";\n description = \"Local ip whitelist\";\n action = \"accept\";\n}\n\nWHITELIST_FROM {\n type = \"from\";\n map = \"$CONFDIR/local.d/whitelist_from.map\";\n description = \"Local from whitelist\";\n action = \"accept\";\n}\n"` |                                                                                |
-| config.overrideClassifierBayes | string | `"autolearn = true;\n"`                                                                                                                                                                                                                                                                                            |                                                                                |
-| config.whitelist.fromMap       | string | `""`                                                                                                                                                                                                                                                                                                               |                                                                                |
-| config.whitelist.ipMap         | string | `""`                                                                                                                                                                                                                                                                                                               |                                                                                |
-| fullnameOverride               | string | `""`                                                                                                                                                                                                                                                                                                               |                                                                                |
-| image.pullPolicy               | string | `"IfNotPresent"`                                                                                                                                                                                                                                                                                                   |                                                                                |
-| image.repository               | string | `"ectobit/rspamd"`                                                                                                                                                                                                                                                                                                 |                                                                                |
-| image.tag                      | string | `""`                                                                                                                                                                                                                                                                                                               |                                                                                |
-| imagePullSecrets               | list   | `[]`                                                                                                                                                                                                                                                                                                               |                                                                                |
-| nameOverride                   | string | `""`                                                                                                                                                                                                                                                                                                               |                                                                                |
-| nodeSelector                   | object | `{}`                                                                                                                                                                                                                                                                                                               |                                                                                |
-| persistence.accessMode         | string | `"ReadWriteOnce"`                                                                                                                                                                                                                                                                                                  |                                                                                |
-| persistence.annotations        | object | `{}`                                                                                                                                                                                                                                                                                                               |                                                                                |
-| persistence.enabled            | bool   | `false`                                                                                                                                                                                                                                                                                                            |                                                                                |
-| persistence.size               | string | `"128Mi"`                                                                                                                                                                                                                                                                                                          |                                                                                |
-| podAnnotations                 | object | `{}`                                                                                                                                                                                                                                                                                                               |                                                                                |
-| podSecurityContext.fsGroup     | int    | `101`                                                                                                                                                                                                                                                                                                              |                                                                                |
-| redis.enabled                  | bool   | `false`                                                                                                                                                                                                                                                                                                            |                                                                                |
-| replicaCount                   | int    | `1`                                                                                                                                                                                                                                                                                                                |                                                                                |
-| resources                      | object | `{}`                                                                                                                                                                                                                                                                                                               |                                                                                |
-| securityContext                | object | `{}`                                                                                                                                                                                                                                                                                                               |                                                                                |
-| service.controllerPort         | int    | `11334`                                                                                                                                                                                                                                                                                                            |                                                                                |
-| service.port                   | int    | `11333`                                                                                                                                                                                                                                                                                                            |                                                                                |
-| service.proxyPort              | int    | `11332`                                                                                                                                                                                                                                                                                                            |                                                                                |
-| service.type                   | string | `"ClusterIP"`                                                                                                                                                                                                                                                                                                      |                                                                                |
-| serviceAccount.annotations     | object | `{}`                                                                                                                                                                                                                                                                                                               |                                                                                |
-| serviceAccount.create          | bool   | `true`                                                                                                                                                                                                                                                                                                             |                                                                                |
-| serviceAccount.name            | string | `""`                                                                                                                                                                                                                                                                                                               | If not set and create is true, a name is generated using the fullname template |
-| tolerations                    | list   | `[]`                                                                                                                                                                                                                                                                                                               |                                                                                |
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| affinity | object | `{}` |  |
+| config.blacklist.fromMap | string | `""` |  |
+| config.blacklist.ipMap | string | `""` |  |
+| config.dkimSelector | int | `2020` |  |
+| config.milterHeaders | string | `"use = [\"x-spamd-bar\", \"x-spam-level\", \"authentication-results\"];\nauthenticated_headers = [\"authentication-results\"];\n"` |  |
+| config.multiMap | string | `"WHITELIST_IP {\n  type = \"ip\";\n  map = \"$CONFDIR/local.d/whitelist_ip.map\";\n  description = \"Local ip whitelist\";\n  action = \"accept\";\n}\n\nWHITELIST_FROM {\n  type = \"from\";\n  map = \"$CONFDIR/local.d/whitelist_from.map\";\n  description = \"Local from whitelist\";\n  action = \"accept\";\n}\n"` |  |
+| config.overrideClassifierBayes | string | `"autolearn = true;\n"` |  |
+| config.whitelist.fromMap | string | `""` |  |
+| config.whitelist.ipMap | string | `""` |  |
+| fullnameOverride | string | `""` |  |
+| image.pullPolicy | string | `"IfNotPresent"` |  |
+| image.repository | string | `"ectobit/rspamd"` |  |
+| image.tag | string | `""` |  |
+| imagePullSecrets | list | `[]` |  |
+| nameOverride | string | `""` |  |
+| nodeSelector | object | `{}` |  |
+| persistence.accessMode | string | `"ReadWriteOnce"` |  |
+| persistence.annotations | object | `{}` |  |
+| persistence.enabled | bool | `false` |  |
+| persistence.size | string | `"128Mi"` |  |
+| podAnnotations | object | `{}` |  |
+| podSecurityContext.fsGroup | int | `101` |  |
+| redis.enabled | bool | `false` |  |
+| replicaCount | int | `1` |  |
+| resources | object | `{}` |  |
+| securityContext | object | `{}` |  |
+| service.controllerPort | int | `11334` |  |
+| service.port | int | `11333` |  |
+| service.proxyPort | int | `11332` |  |
+| service.type | string | `"ClusterIP"` |  |
+| serviceAccount.annotations | object | `{}` |  |
+| serviceAccount.create | bool | `true` |  |
+| serviceAccount.name | string | `""` |  If not set and create is true, a name is generated using the fullname template |
+| tolerations | list | `[]` |  |
 
 ## To do
 
