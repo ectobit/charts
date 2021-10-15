@@ -1,4 +1,4 @@
-.PHONY: gen-chart-docs lint
+.PHONY: gen-chart-docs lint update-deps
 
 lint:
 	helm lint vanity
@@ -12,3 +12,6 @@ gen-chart-docs:
 	prettier -w rspamd/README.md
 	helm-docs adminer
 	prettier -w adminer/README.md
+
+update-deps:
+	cd rspamd && helm dependency update && cd -
