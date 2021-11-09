@@ -9,6 +9,10 @@ sources:
   - https://github.com/TimWolla/docker-adminer
   - https://github.com/vrana/adminer
 icon: https://ectobit.com/logov.svg
+annotations:
+  artifacthub.io/signKey: |
+    fingerprint: E42F9280FEC5C8235AB45343B0EDB01E6EDFD5AC
+    url: https://keybase.io/ectobit/pgp_keys.asc
 
 # A chart can be either an 'application' or a 'library' chart.
 #
