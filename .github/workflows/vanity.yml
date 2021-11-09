@@ -22,7 +22,7 @@ jobs:
           chmod 700 get_helm.sh
           ./get_helm.sh
       - name: Check out
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@v2.4.0
       - name: Lint
         run: |
           helm lint ${{ env.CHART }}
