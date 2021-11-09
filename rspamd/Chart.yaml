@@ -12,6 +12,10 @@ sources:
   - https://github.com/ectobit/charts/tree/main/rspamd
   - https://github.com/ectobit/container-images/tree/main/rspamd
 icon: https://ectobit.com/logov.svg
+annotations:
+  artifacthub.io/signKey: |
+    fingerprint: E42F9280FEC5C8235AB45343B0EDB01E6EDFD5AC
+    url: https://keybase.io/ectobit/pgp_keys.asc
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -26,7 +30,7 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.8.7
+version: 0.8.8
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
@@ -35,6 +39,6 @@ appVersion: 2.7-alpine3.14.2
 
 dependencies:
   - name: redis
-    version: 15.4.1
+    version: 15.5.4
     repository: https://charts.bitnami.com/bitnami
     condition: redis.enabled
