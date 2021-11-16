@@ -2,7 +2,7 @@
 
 Adminer Helm chart for Kubernetes
 
-![Version: 0.1.3](https://img.shields.io/badge/Version-0.1.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 4.8.1](https://img.shields.io/badge/AppVersion-4.8.1-informational?style=flat-square) [![adminer](https://github.com/ectobit/charts/actions/workflows/adminer.yml/badge.svg)](https://github.com/ectobit/charts/actions/workflows/adminer.yml)
+![Version: 0.1.4](https://img.shields.io/badge/Version-0.1.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 4.8.1](https://img.shields.io/badge/AppVersion-4.8.1-informational?style=flat-square) [![adminer](https://github.com/ectobit/charts/actions/workflows/adminer.yml/badge.svg)](https://github.com/ectobit/charts/actions/workflows/adminer.yml)
 
 ## Add repository
 
@@ -56,7 +56,7 @@ releases:
 | autoscaling.targetCPUUtilizationPercentage | int    | `80`                                                                                          |                                                                                |
 | fullnameOverride                           | string | `""`                                                                                          |                                                                                |
 | image.pullPolicy                           | string | `"IfNotPresent"`                                                                              |                                                                                |
-| image.repository                           | string | `"adminer"`                                                                                   |                                                                                |
+| image.repository                           | string | `"ectobit/adminer"`                                                                           |                                                                                |
 | image.tag                                  | string | `""`                                                                                          |                                                                                |
 | imagePullSecrets                           | list   | `[]`                                                                                          |                                                                                |
 | ingress.annotations                        | object | `{}`                                                                                          |                                                                                |
