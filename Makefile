@@ -4,14 +4,14 @@ lint:
 	helm lint vanity
 	helm lint rspamd
 	helm lint adminer
+	helm lint pgweb
 
 gen-chart-docs:
-	helm-docs vanity
+	helm-docs
 	prettier -w vanity/README.md
-	helm-docs rspamd
 	prettier -w rspamd/README.md
-	helm-docs adminer
 	prettier -w adminer/README.md
+	prettier -w pgweb/README.md
 
 update-deps:
 	cd rspamd && helm dependency update && cd -
