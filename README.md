@@ -16,6 +16,7 @@ Helm charts by Ectobit
 - [vanity](vanity/README.md) - Go vanity imports HTTP server
 - [rspamd](rspamd/README.md) - Spam filtering system
 - [adminer](adminer/README.md) - Database management
+- [pgweb](pgweb/README.md) - PostgreSQL database management
 
 ## Links
 
