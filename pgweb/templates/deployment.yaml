@@ -51,7 +51,7 @@ spec:
           env:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.additionalCommandArgs }}
+          {{- with .Values.extraArgs }}
           command:
             - /usr/bin/pgweb
           args:
