@@ -2,7 +2,7 @@
 
 pgweb Helm chart for Kubernetes
 
-![Version: 0.1.4](https://img.shields.io/badge/Version-0.1.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.11.11](https://img.shields.io/badge/AppVersion-0.11.11-informational?style=flat-square) [![pgweb](https://github.com/ectobit/charts/actions/workflows/pgweb.yml/badge.svg)](https://github.com/ectobit/charts/actions/workflows/pgweb.yml)
+![Version: 0.1.4](https://img.shields.io/badge/Version-0.1.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.11.12](https://img.shields.io/badge/AppVersion-0.11.12-informational?style=flat-square) [![pgweb](https://github.com/ectobit/charts/actions/workflows/pgweb.yml/badge.svg)](https://github.com/ectobit/charts/actions/workflows/pgweb.yml)
 
 ## Add repository
 
@@ -57,7 +57,7 @@ releases:
 | extraArgs                                  | list   | `[]`                       |             |
 | fullnameOverride                           | string | `""`                       |             |
 | image.pullPolicy                           | string | `"IfNotPresent"`           |             |
-| image.repository                           | string | `"sosedoff/pgweb"`         |             |
+| image.repository                           | string | `"ectobit/pgweb"`          |             |
 | image.tag                                  | string | `""`                       |             |
 | imagePullSecrets                           | list   | `[]`                       |             |
 | ingress.annotations                        | object | `{}`                       |             |

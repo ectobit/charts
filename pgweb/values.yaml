@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: sosedoff/pgweb
+  repository: ectobit/pgweb
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
