@@ -9,35 +9,14 @@ on:
   pull_request:
     paths:
       - 'pgweb/**'
+  workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    env:
-      CHART: pgweb
-    steps:
-      - name: Set up Helm
-        run: |
-          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-          chmod 700 get_helm.sh
-          ./get_helm.sh
-      - name: Check out
-        uses: actions/checkout@v3
-      - name: Lint
-        run: |
-          helm lint ${{ env.CHART }}
-      - name: Configure GPG key
-        env:
-          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
-        run: |
-          mkdir -p ~/.gnupg/
-          printf "${GPG_SIGNING_KEY}" | base64 -d > ~/.gnupg/pubring.gpg
-      - name: Release
-        run: |
-          FILE_PATH=$(helm package --sign --key 'Boban Acimovic' ${{ env.CHART }} | awk '{print $8}')
-          FILE=$(basename ${FILE_PATH})
-          echo "Uploading ${FILE} chart and provenance ${FILE}.prov"
-          curl -u "${{secrets.HELM_REPO_USERNAME}}:${{secrets.HELM_REPO_PASSWORD}}" \
-            -F "chart=@${FILE}" \
-            -F "prov=@${FILE}.prov" \
-            https://charts.ectobit.com/api/charts
+    uses: ectobit/reusable-workflows/.github/workflows/chart.yaml@main
+    with:
+      chart: pgweb
+    secrets:
+      helm-repo-username: ${{secrets.HELM_REPO_USERNAME}}
+      helm-repo-password: ${{secrets.HELM_REPO_PASSWORD}}
+      gpg-signing-key: ${{ secrets.GPG_SIGNING_KEY }}
