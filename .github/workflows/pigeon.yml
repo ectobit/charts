@@ -1,0 +1,18 @@
+name: pigeon
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'pigeon/**'
+  pull_request:
+    paths:
+      - 'pigeon/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: ectobit/reusable-workflows/.github/workflows/chart.yaml@main
+    with:
+      chart: pigeon
