@@ -16,3 +16,4 @@ jobs:
     uses: ectobit/reusable-workflows/.github/workflows/chart.yaml@main
     with:
       chart: pigeon
+      release: false
