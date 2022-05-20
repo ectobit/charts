@@ -1,0 +1,51 @@
+{{ template "chart.header" . }}
+{{ template "chart.deprecationWarning" . }}
+
+{{ template "chart.description" . }}
+
+{{ template "chart.badgesSection" . }}
+[![pigeon](https://github.com/ectobit/charts/actions/workflows/pigeon.yml/badge.svg)](https://github.com/ectobit/charts/actions/workflows/pigeon.yml)
+[![License](https://img.shields.io/badge/license-BSD--2--Clause--Patent-orange.svg)](https://github.com/ectobit/charts/blob/main/pigeon/LICENSE)
+
+## Add repository
+
+`helm repo add ectobit https://charts.ectobit.com`
+
+## Install
+
+```sh
+helm install pigeon ectobit/pigeon
+```
+
+## Helmfile
+
+```yaml
+releases:
+- name: pigeon
+  chart: ectobit/pigeon
+  namespace: default
+  values:
+  - ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: nginx
+      hosts:
+      - host: pigeon.your-domain.com
+        paths:
+        - path: /
+          pathType: Prefix
+      tls:
+      - secretName: your-domain-com-tls
+        hosts:
+        - pigeon.your-domain.com
+```
+
+{{ template "chart.homepageLine" . }}
+
+{{ template "chart.maintainersSection" . }}
+
+{{ template "chart.sourcesSection" . }}
+
+{{ template "chart.requirementsSection" . }}
+
+{{ template "chart.valuesSection" . }}
