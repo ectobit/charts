@@ -2,7 +2,7 @@
 
 Rspamd Helm chart for Kubernetes
 
-![Version: 0.8.16](https://img.shields.io/badge/Version-0.8.16-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.2-alpine3.16.0](https://img.shields.io/badge/AppVersion-3.2--alpine3.16.0-informational?style=flat-square)
+![Version: 0.8.17](https://img.shields.io/badge/Version-0.8.17-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.2-alpine3.16.0](https://img.shields.io/badge/AppVersion-3.2--alpine3.16.0-informational?style=flat-square)
 [![rspamd](https://github.com/ectobit/charts/actions/workflows/rspamd.yml/badge.svg)](https://github.com/ectobit/charts/actions/workflows/rspamd.yml)
 [![License](https://img.shields.io/badge/license-BSD--2--Clause--Patent-orange.svg)](https://github.com/ectobit/charts/blob/main/rspamd/LICENSE)
 
@@ -60,7 +60,7 @@ Take care to use the same key name as in values config.dkimSelector.
 
 | Repository                         | Name  | Version |
 | ---------------------------------- | ----- | ------- |
-| https://charts.bitnami.com/bitnami | redis | 16.9.7  |
+| https://charts.bitnami.com/bitnami | redis | 16.9.11 |
 
 ## Values
 
