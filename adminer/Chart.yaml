@@ -8,7 +8,7 @@ sources:
   - https://github.com/ectobit/charts/tree/main/adminer
   - https://github.com/TimWolla/docker-adminer
   - https://github.com/vrana/adminer
-icon: https://ectobit.com/logov.svg
+icon: https://ectobit.com/logo-sq.png
 annotations:
   artifacthub.io/signKey: |
     fingerprint: E42F9280FEC5C8235AB45343B0EDB01E6EDFD5AC
@@ -27,7 +27,7 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.1.5
+version: 0.1.6
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
