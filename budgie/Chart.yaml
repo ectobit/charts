@@ -1,6 +1,22 @@
 apiVersion: v2
 name: budgie
-description: A Helm chart for Kubernetes
+description: Micro service in Rust to send e-mail using SMTP relay
+keywords:
+  - e-mail
+  - microservice
+  - smtp
+  - rust
+  - rest
+  - api
+  - server
+home: https://github.com/ectobit/charts
+sources:
+  - https://github.com/ectobit/budgie
+icon: https://ectobit.com/logo-sq.png
+annotations:
+  artifacthub.io/signKey: |
+    fingerprint: E42F9280FEC5C8235AB45343B0EDB01E6EDFD5AC
+    url: https://keybase.io/ectobit/pgp_keys.asc
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -21,4 +37,4 @@ version: 0.1.0
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
-appVersion: "1.16.0"
+appVersion: edge

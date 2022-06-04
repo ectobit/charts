@@ -1,0 +1,28 @@
+{{ template "chart.header" . }}
+{{ template "chart.deprecationWarning" . }}
+
+{{ template "chart.description" . }}
+
+{{ template "chart.badgesSection" . }}
+[![budgie](https://github.com/ectobit/charts/actions/workflows/budgie.yml/badge.svg)](https://github.com/ectobit/charts/actions/workflows/budgie.yml)
+[![License](https://img.shields.io/badge/license-BSD--2--Clause--Patent-orange.svg)](https://github.com/ectobit/charts/blob/main/budgie/LICENSE)
+
+## Add repository
+
+`helm repo add ectobit https://charts.ectobit.com`
+
+## Install
+
+```sh
+helm install budgie ectobit/budgie
+```
+
+{{ template "chart.homepageLine" . }}
+
+{{ template "chart.maintainersSection" . }}
+
+{{ template "chart.sourcesSection" . }}
+
+{{ template "chart.requirementsSection" . }}
+
+{{ template "chart.valuesSection" . }}
