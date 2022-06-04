@@ -14,10 +14,11 @@ Helm charts by Ectobit
 
 ## Charts
 
-- [vanity](vanity/README.md) - Go vanity imports HTTP server
-- [rspamd](rspamd/README.md) - Spam filtering system
 - [adminer](adminer/README.md) - Database management
+- [budgie](budgie/README.md) - Micro service in Rust to send e-mails using SMTP relay
 - [pgweb](pgweb/README.md) - PostgreSQL database management
+- [rspamd](rspamd/README.md) - Spam filtering system
+- [vanity](vanity/README.md) - Go vanity imports HTTP server
 
 ## Links
 

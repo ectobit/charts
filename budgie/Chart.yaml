@@ -1,6 +1,6 @@
 apiVersion: v2
 name: budgie
-description: Micro service in Rust to send e-mail using SMTP relay
+description: Micro service in Rust to send e-mails using SMTP relay
 keywords:
   - e-mail
   - microservice
