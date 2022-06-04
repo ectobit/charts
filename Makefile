@@ -1,19 +1,19 @@
 .PHONY: gen-chart-docs lint update-deps
 
 lint:
-	helm lint vanity
-	helm lint rspamd
 	helm lint adminer
+	helm lint budgie
 	helm lint pgweb
-	helm lint pigeon
+	helm lint rspamd
+	helm lint vanity
 
 gen-chart-docs:
 	helm-docs
-	prettier -w vanity/README.md
-	prettier -w rspamd/README.md
 	prettier -w adminer/README.md
+	prettier -w budgie/README.md
 	prettier -w pgweb/README.md
-	prettier -w pigeon/README.md
+	prettier -w rspamd/README.md
+	prettier -w vanity/README.md
 
 update-deps:
 	cd rspamd && helm dependency update && cd -

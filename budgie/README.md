@@ -1,6 +1,6 @@
 # budgie
 
-Micro service in Rust to send e-mail using SMTP relay
+Micro service in Rust to send e-mails using SMTP relay
 
 ![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: edge](https://img.shields.io/badge/AppVersion-edge-informational?style=flat-square)
 [![budgie](https://github.com/ectobit/charts/actions/workflows/budgie.yml/badge.svg)](https://github.com/ectobit/charts/actions/workflows/budgie.yml)
@@ -34,7 +34,7 @@ helm install budgie ectobit/budgie
 | env | list | `[]` |  |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.repository | string | `"nginx"` |  |
+| image.repository | string | `"ectobit/budgie"` |  |
 | image.tag | string | `""` |  |
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations | object | `{}` |  |
