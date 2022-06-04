@@ -1,0 +1,22 @@
+name: budgie
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'budgie/**'
+  pull_request:
+    paths:
+      - 'budgie/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: ectobit/reusable-workflows/.github/workflows/chart.yaml@main
+    with:
+      chart: budgie
+    secrets:
+      helm-repo-username: ${{secrets.HELM_REPO_USERNAME}}
+      helm-repo-password: ${{secrets.HELM_REPO_PASSWORD}}
+      gpg-signing-key: ${{ secrets.GPG_SIGNING_KEY }}
