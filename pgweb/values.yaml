@@ -83,4 +83,6 @@ affinity: {}
 
 env: []
 
+envFrom: []
+
 extraArgs: []
