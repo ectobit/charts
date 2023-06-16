@@ -5,7 +5,6 @@ lint:
 	helm lint budgie
 	helm lint pgweb
 	helm lint rspamd
-	helm lint vanity
 
 gen-chart-docs:
 	helm-docs
@@ -13,7 +12,6 @@ gen-chart-docs:
 	prettier -w budgie/README.md
 	prettier -w pgweb/README.md
 	prettier -w rspamd/README.md
-	prettier -w vanity/README.md
 
 update-deps:
 	cd rspamd && helm dependency update && cd -

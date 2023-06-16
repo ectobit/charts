@@ -2,7 +2,7 @@
 
 Adminer Helm chart for Kubernetes
 
-![Version: 0.1.6](https://img.shields.io/badge/Version-0.1.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 4.8.1-r1](https://img.shields.io/badge/AppVersion-4.8.1--r1-informational?style=flat-square)
+![Version: 0.1.7](https://img.shields.io/badge/Version-0.1.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 4.8.1](https://img.shields.io/badge/AppVersion-4.8.1-informational?style=flat-square)
 [![adminer](https://github.com/ectobit/charts/actions/workflows/adminer.yml/badge.svg)](https://github.com/ectobit/charts/actions/workflows/adminer.yml)
 [![License](https://img.shields.io/badge/license-BSD--2--Clause--Patent-orange.svg)](https://github.com/ectobit/charts/blob/main/adminer/LICENSE)
 
@@ -58,7 +58,7 @@ releases:
 | autoscaling.targetCPUUtilizationPercentage | int    | `80`                       |             |
 | fullnameOverride                           | string | `""`                       |             |
 | image.pullPolicy                           | string | `"IfNotPresent"`           |             |
-| image.repository                           | string | `"ectobit/adminer"`        |             |
+| image.repository                           | string | `"adminer"`                |             |
 | image.tag                                  | string | `""`                       |             |
 | imagePullSecrets                           | list   | `[]`                       |             |
 | ingress.annotations                        | object | `{}`                       |             |
