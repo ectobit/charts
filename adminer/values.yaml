@@ -84,3 +84,15 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+# The Adminer container utilizes a few environment variables to update behaviour:
+# ADMINER_PLUGINS - In a space-delimited list, specify any official Adminer plugin to enable.
+#                   All plugins can be viewed here: https://github.com/vrana/adminer/tree/master/plugins
+# ADMINER_DESIGN - Specify the name of any official theme to utilize this design.
+#                  All designs can be viewed here: https://github.com/vrana/adminer/tree/master/designs
+# ADMINER_DEFAULT_SERVER - This specifies the default server to connect to.
+env: {}
+# Example:
+# env:
+#   ADMINER_PLUGINS: "designs tables-filter tinymce"
+#   ADMINER_DESIGN: "pepa-linha-dark"
