@@ -30,15 +30,15 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.9.13
+version: 0.9.14
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
-appVersion: 3.8.4-alpine3.20.3
+appVersion: 3.10.2-alpine3.21.2
 
 dependencies:
   - name: redis
-    version: 20.1.0
+    version: 20.6.2
     repository: https://charts.bitnami.com/bitnami
     condition: redis.enabled
