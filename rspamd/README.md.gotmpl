@@ -50,6 +50,16 @@ rspamadm dkim_keygen -b 2048 -s 2020 -k /var/lib/rspamd/dkim/2020.key > /var/lib
 
 Take care to use the same key name as in values config.dkimSelector.
 
+## DNS resolver configuration
+
+```yaml
+config:
+  options: |
+    dns {
+      nameserver = ["185.12.64.1:53", "185.12.64.2:53"];
+    }
+```
+
 {{ template "chart.homepageLine" . }}
 
 {{ template "chart.maintainersSection" . }}

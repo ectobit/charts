@@ -62,6 +62,11 @@ spec:
             - name: config
               mountPath: /etc/rspamd/local.d/worker-proxy.inc
               subPath: worker-proxy.inc
+          {{- with .Values.config.options }}
+            - name: config
+              mountPath: /etc/rspamd/local.d/options.inc
+              subPath: options.inc
+          {{- end }}
             - name: config
               mountPath: /etc/rspamd/local.d/dkim_signing.conf
               subPath: dkim_signing.conf

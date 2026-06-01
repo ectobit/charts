@@ -11,7 +11,7 @@ home: https://github.com/ectobit/charts
 sources:
   - https://github.com/ectobit/charts/tree/main/rspamd
   - https://github.com/ectobit/container-images/tree/main/rspamd
-icon: https://ectobit.com/logo-sq.png
+icon: https://acim.net/android-chrome-512x512.png
 annotations:
   artifacthub.io/signKey: |
     fingerprint: E42F9280FEC5C8235AB45343B0EDB01E6EDFD5AC
@@ -30,7 +30,7 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.9.17
+version: 0.9.19
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
@@ -39,6 +39,6 @@ appVersion: 3.14.0-alpine3.23.2
 
 dependencies:
   - name: redis
-    version: 24.1.0
+    version: 25.5.3
     repository: https://charts.bitnami.com/bitnami
     condition: redis.enabled

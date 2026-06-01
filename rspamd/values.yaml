@@ -63,6 +63,8 @@ tolerations: []
 affinity: {}
 
 config:
+  # -- Additional Rspamd options rendered to /etc/rspamd/local.d/options.inc.
+  options: ''
   blacklist:
     fromMap: ''
     ipMap: ''
