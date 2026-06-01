@@ -62,6 +62,11 @@ spec:
             - name: config
               mountPath: /etc/rspamd/local.d/worker-proxy.inc
               subPath: worker-proxy.inc
+          {{- if .Values.config.workerController.enabled }}
+            - name: config
+              mountPath: /etc/rspamd/local.d/worker-controller.inc
+              subPath: worker-controller.inc
+          {{- end }}
           {{- with .Values.config.options }}
             - name: config
               mountPath: /etc/rspamd/local.d/options.inc

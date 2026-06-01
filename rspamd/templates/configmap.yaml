@@ -26,6 +26,19 @@ data:
       default = yes;
       self_scan = yes;
     }
+{{- if .Values.config.workerController.enabled }}
+  worker-controller.inc: |
+    bind_socket = {{ .Values.config.workerController.bindSocket | quote }};
+{{- range .Values.config.workerController.secureIp }}
+    secure_ip = {{ . | quote }};
+{{- end }}
+{{- with .Values.config.workerController.password }}
+    password = {{ . | quote }};
+{{- end }}
+{{- with .Values.config.workerController.extraConfig }}
+{{ . | nindent 4 }}
+{{- end }}
+{{- end }}
 {{- with .Values.config.options }}
   options.inc: |{{ . | nindent 4 }}
 {{- end }}

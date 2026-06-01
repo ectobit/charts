@@ -60,6 +60,20 @@ config:
     }
 ```
 
+## Controller access
+
+The Rspamd controller worker is rendered localhost-only by default. To allow other pods in the same namespace to run commands such as `rspamc -h rspamd:11334 learn_spam`, bind the controller to the pod network and restrict access with `secureIp` and/or a Kubernetes NetworkPolicy. Keep the Service `ClusterIP`-only and do not expose the controller outside the cluster by default.
+
+```yaml
+config:
+  workerController:
+    bindSocket: "*:11334"
+    secureIp:
+      - "127.0.0.1"
+      - "::1"
+      - "10.244.0.0/16"
+```
+
 {{ template "chart.homepageLine" . }}
 
 {{ template "chart.maintainersSection" . }}

@@ -65,6 +65,19 @@ affinity: {}
 config:
   # -- Additional Rspamd options rendered to /etc/rspamd/local.d/options.inc.
   options: ''
+  workerController:
+    # -- Render /etc/rspamd/local.d/worker-controller.inc.
+    enabled: true
+    # -- Rspamd controller bind socket. Keep localhost-only unless namespace-local access is required.
+    bindSocket: 'localhost:11334'
+    # -- IPs or CIDR ranges allowed to access the controller.
+    secureIp:
+      - '127.0.0.1'
+      - '::1'
+    # -- Optional controller password.
+    password: ''
+    # -- Additional raw Rspamd controller worker configuration.
+    extraConfig: ''
   blacklist:
     fromMap: ''
     ipMap: ''
