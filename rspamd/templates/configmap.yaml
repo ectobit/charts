@@ -42,6 +42,9 @@ data:
 {{- with .Values.config.options }}
   options.inc: |{{ . | nindent 4 }}
 {{- end }}
+{{- with .Values.config.rbl }}
+  rbl.conf: |{{ . | nindent 4 }}
+{{- end }}
   dkim_signing.conf: |
     path = "/var/lib/rspamd/dkim/$selector.key";
     selector = {{ .Values.config.dkimSelector | quote }};

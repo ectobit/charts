@@ -48,6 +48,8 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /var/lib/rspamd
+            - name: run
+              mountPath: /run/rspamd
           {{- if .Values.redis.enabled }}
             - name: config
               mountPath: /etc/rspamd/local.d/redis.conf
@@ -71,6 +73,11 @@ spec:
             - name: config
               mountPath: /etc/rspamd/local.d/options.inc
               subPath: options.inc
+          {{- end }}
+          {{- with .Values.config.rbl }}
+            - name: config
+              mountPath: /etc/rspamd/local.d/rbl.conf
+              subPath: rbl.conf
           {{- end }}
             - name: config
               mountPath: /etc/rspamd/local.d/dkim_signing.conf
@@ -132,6 +139,8 @@ spec:
           {{- else }}
           emptyDir: {}
           {{- end }}
+        - name: run
+          emptyDir: {}
         - name: config
           configMap:
             name: {{include "rspamd.fullname" .}}

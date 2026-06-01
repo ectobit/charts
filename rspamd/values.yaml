@@ -65,6 +65,8 @@ affinity: {}
 config:
   # -- Additional Rspamd options rendered to /etc/rspamd/local.d/options.inc.
   options: ''
+  # -- Rspamd RBL overrides rendered to /etc/rspamd/local.d/rbl.conf. Use this to disable or override individual RBL rules.
+  rbl: ''
   workerController:
     # -- Render /etc/rspamd/local.d/worker-controller.inc.
     enabled: true

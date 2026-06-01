@@ -74,6 +74,20 @@ config:
       - "10.244.0.0/16"
 ```
 
+## RBL overrides
+
+Use `config.rbl` to render `/etc/rspamd/local.d/rbl.conf` and disable or override individual RBL rules.
+
+```yaml
+config:
+  rbl: |
+    rbls {
+      senderscore_reputation {
+        enabled = false;
+      }
+    }
+```
+
 {{ template "chart.homepageLine" . }}
 
 {{ template "chart.maintainersSection" . }}
