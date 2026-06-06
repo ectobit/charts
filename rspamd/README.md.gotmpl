@@ -88,6 +88,16 @@ config:
     }
 ```
 
+## Redis history configuration
+
+When `redis.enabled=true`, the chart renders `/etc/rspamd/local.d/history_redis.conf` with an upstream-compatible history key prefix by default:
+
+```yaml
+config:
+  historyRedis:
+    keyPrefix: 'rs_history{{ "{{" }}HOSTNAME{{ "}}" }}{{ "{{" }}COMPRESS{{ "}}" }}'
+```
+
 {{ template "chart.homepageLine" . }}
 
 {{ template "chart.maintainersSection" . }}

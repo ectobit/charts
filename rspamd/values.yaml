@@ -67,6 +67,19 @@ config:
   options: ''
   # -- Rspamd RBL overrides rendered to /etc/rspamd/local.d/rbl.conf. Use this to disable or override individual RBL rules.
   rbl: ''
+  historyRedis:
+    # -- Render /etc/rspamd/local.d/history_redis.conf when redis.enabled is true.
+    enabled: true
+    # -- Redis history key prefix. The default matches Rspamd upstream and expands inside Rspamd.
+    keyPrefix: 'rs_history{{HOSTNAME}}{{COMPRESS}}'
+    # -- Maximum number of Redis history rows.
+    nrows: 200
+    # -- Enable Redis history compression.
+    compress: true
+    # -- Enable Redis history subject privacy.
+    subjectPrivacy: false
+    # -- Additional raw Rspamd history_redis configuration.
+    extraConfig: ''
   workerController:
     # -- Render /etc/rspamd/local.d/worker-controller.inc.
     enabled: true

@@ -12,7 +12,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: {{ tpl (toYaml .Values.config) . | sha256sum }}
+        checksum/config: {{ toYaml .Values.config | sha256sum }}
     {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
     {{- end }}
@@ -54,9 +54,11 @@ spec:
             - name: config
               mountPath: /etc/rspamd/local.d/redis.conf
               subPath: redis.conf
+          {{- if .Values.config.historyRedis.enabled }}
             - name: config
               mountPath: /etc/rspamd/local.d/history_redis.conf
               subPath: history_redis.conf
+          {{- end }}
           {{- end }}
             - name: config
               mountPath: /etc/rspamd/local.d/worker-normal.inc

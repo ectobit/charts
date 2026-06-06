@@ -2,7 +2,7 @@
 
 Rspamd Helm chart for Kubernetes
 
-![Version: 0.11.0](https://img.shields.io/badge/Version-0.11.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.14.0-alpine3.23.4](https://img.shields.io/badge/AppVersion-3.14.0--alpine3.23.4-informational?style=flat-square)
+![Version: 0.12.0](https://img.shields.io/badge/Version-0.12.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.14.0-alpine3.23.4](https://img.shields.io/badge/AppVersion-3.14.0--alpine3.23.4-informational?style=flat-square)
 [![rspamd](https://github.com/ectobit/charts/actions/workflows/rspamd.yml/badge.svg)](https://github.com/ectobit/charts/actions/workflows/rspamd.yml)
 [![License](https://img.shields.io/badge/license-BSD--2--Clause--Patent-orange.svg)](https://github.com/ectobit/charts/blob/main/rspamd/LICENSE)
 
@@ -87,6 +87,16 @@ config:
     }
 ```
 
+## Redis history configuration
+
+When `redis.enabled=true`, the chart renders `/etc/rspamd/local.d/history_redis.conf` with an upstream-compatible history key prefix by default:
+
+```yaml
+config:
+  historyRedis:
+    keyPrefix: "rs_history{{HOSTNAME}}{{COMPRESS}}"
+```
+
 **Homepage:** <https://github.com/ectobit/charts>
 
 ## Source Code
@@ -108,6 +118,12 @@ config:
 | config.blacklist.fromMap            | string | `""`                                                                                                                                                                                                                                                                                                                       |                                                                                                                      |
 | config.blacklist.ipMap              | string | `""`                                                                                                                                                                                                                                                                                                                       |                                                                                                                      |
 | config.dkimSelector                 | int    | `2020`                                                                                                                                                                                                                                                                                                                     |                                                                                                                      |
+| config.historyRedis.compress        | bool   | `true`                                                                                                                                                                                                                                                                                                                     | Enable Redis history compression.                                                                                    |
+| config.historyRedis.enabled         | bool   | `true`                                                                                                                                                                                                                                                                                                                     | Render /etc/rspamd/local.d/history_redis.conf when redis.enabled is true.                                            |
+| config.historyRedis.extraConfig     | string | `""`                                                                                                                                                                                                                                                                                                                       | Additional raw Rspamd history_redis configuration.                                                                   |
+| config.historyRedis.keyPrefix       | string | `"rs_history{{HOSTNAME}}{{COMPRESS}}"`                                                                                                                                                                                                                                                                                     | Redis history key prefix. The default matches Rspamd upstream and expands inside Rspamd.                             |
+| config.historyRedis.nrows           | int    | `200`                                                                                                                                                                                                                                                                                                                      | Maximum number of Redis history rows.                                                                                |
+| config.historyRedis.subjectPrivacy  | bool   | `false`                                                                                                                                                                                                                                                                                                                    | Enable Redis history subject privacy.                                                                                |
 | config.milterHeaders                | string | `"use = [\"x-spamd-bar\", \"x-spam-level\", \"authentication-results\"];\nauthenticated_headers = [\"authentication-results\"];\n"`                                                                                                                                                                                        |                                                                                                                      |
 | config.multiMap                     | string | `"WHITELIST_IP {\n  type = \"ip\";\n  map = \"$CONFDIR/local.d/whitelist_ip.map\";\n  description = \"Local ip whitelist\";\n  action = \"accept\";\n}\n\nWHITELIST_FROM {\n  type = \"from\";\n  map = \"$CONFDIR/local.d/whitelist_from.map\";\n  description = \"Local from whitelist\";\n  action = \"accept\";\n}\n"` |                                                                                                                      |
 | config.options                      | string | `""`                                                                                                                                                                                                                                                                                                                       | Additional Rspamd options rendered to /etc/rspamd/local.d/options.inc.                                               |
