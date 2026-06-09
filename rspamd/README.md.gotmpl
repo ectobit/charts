@@ -88,6 +88,18 @@ config:
     }
 ```
 
+## ARC verification
+
+Use `config.arc` to render `/etc/rspamd/local.d/arc.conf`. To enable ARC verification without ARC signing, leave signing disabled:
+
+```yaml
+config:
+  arc: |
+    sign_authenticated = false;
+    sign_local = false;
+    sign_inbound = false;
+```
+
 ## Redis history configuration
 
 When `redis.enabled=true`, the chart renders `/etc/rspamd/local.d/history_redis.conf` with an upstream-compatible history key prefix by default:

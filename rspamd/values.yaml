@@ -65,6 +65,8 @@ affinity: {}
 config:
   # -- Additional Rspamd options rendered to /etc/rspamd/local.d/options.inc.
   options: ''
+  # -- ARC module configuration rendered to /etc/rspamd/local.d/arc.conf.
+  arc: ''
   # -- Rspamd RBL overrides rendered to /etc/rspamd/local.d/rbl.conf. Use this to disable or override individual RBL rules.
   rbl: ''
   historyRedis:

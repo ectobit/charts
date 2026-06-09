@@ -2,7 +2,7 @@
 
 Rspamd Helm chart for Kubernetes
 
-![Version: 0.12.1](https://img.shields.io/badge/Version-0.12.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 4.0.1-alpine3.24.0](https://img.shields.io/badge/AppVersion-4.0.1--alpine3.24.0-informational?style=flat-square)
+![Version: 0.12.2](https://img.shields.io/badge/Version-0.12.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 4.0.1-alpine3.24.0](https://img.shields.io/badge/AppVersion-4.0.1--alpine3.24.0-informational?style=flat-square)
 [![rspamd](https://github.com/ectobit/charts/actions/workflows/rspamd.yml/badge.svg)](https://github.com/ectobit/charts/actions/workflows/rspamd.yml)
 [![License](https://img.shields.io/badge/license-BSD--2--Clause--Patent-orange.svg)](https://github.com/ectobit/charts/blob/main/rspamd/LICENSE)
 
@@ -87,6 +87,18 @@ config:
     }
 ```
 
+## ARC verification
+
+Use `config.arc` to render `/etc/rspamd/local.d/arc.conf`. To enable ARC verification without ARC signing, leave signing disabled:
+
+```yaml
+config:
+  arc: |
+    sign_authenticated = false;
+    sign_local = false;
+    sign_inbound = false;
+```
+
 ## Redis history configuration
 
 When `redis.enabled=true`, the chart renders `/etc/rspamd/local.d/history_redis.conf` with an upstream-compatible history key prefix by default:
@@ -115,6 +127,7 @@ config:
 | Key                                 | Type   | Default                                                                                                                                                                                                                                                                                                                    | Description                                                                                                            |
 | ----------------------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
 | affinity                            | object | `{}`                                                                                                                                                                                                                                                                                                                       |                                                                                                                        |
+| config.arc                          | string | `""`                                                                                                                                                                                                                                                                                                                       | ARC module configuration rendered to /etc/rspamd/local.d/arc.conf.                                                     |
 | config.blacklist.fromMap            | string | `""`                                                                                                                                                                                                                                                                                                                       |                                                                                                                        |
 | config.blacklist.ipMap              | string | `""`                                                                                                                                                                                                                                                                                                                       |                                                                                                                        |
 | config.dkimSelector                 | int    | `2020`                                                                                                                                                                                                                                                                                                                     |                                                                                                                        |

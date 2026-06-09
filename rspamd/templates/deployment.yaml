@@ -81,11 +81,13 @@ spec:
               mountPath: /etc/rspamd/local.d/rbl.conf
               subPath: rbl.conf
           {{- end }}
-            - name: config
-              mountPath: /etc/rspamd/local.d/dkim_signing.conf
-              subPath: dkim_signing.conf
+          {{- with .Values.config.arc }}
             - name: config
               mountPath: /etc/rspamd/local.d/arc.conf
+              subPath: arc.conf
+          {{- end }}
+            - name: config
+              mountPath: /etc/rspamd/local.d/dkim_signing.conf
               subPath: dkim_signing.conf
             - name: config
               mountPath: /etc/rspamd/local.d/milter_headers.conf
