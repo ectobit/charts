@@ -121,7 +121,13 @@ config:
     autolearn = true;
 
 redis:
+  # -- Enable the Redis dependency.
   enabled: false
+  # -- Redis deployment architecture.
+  architecture: standalone
+  auth:
+    # -- Enable Redis password authentication. Keep disabled unless Rspamd Redis password configuration is provided separately.
+    enabled: false
 
 persistence:
   enabled: false

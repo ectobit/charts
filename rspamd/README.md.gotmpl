@@ -25,13 +25,13 @@ releases:
   chart: ectobit/rspamd
   - redis:
       enabled: true
-      cluster:
+      architecture: standalone
+      auth:
         enabled: false
       serviceAccount:
         create: true
       rbac:
         create: true
-      usePassword: false
       master:
         persistence:
           enabled: true
