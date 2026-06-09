@@ -52,8 +52,27 @@ spec:
             httpGet:
               path: /
               port: http
+          {{- if .Values.mysqlTls.enabled }}
+          volumeMounts:
+            - name: mysql-tls
+              mountPath: {{ .Values.mysqlTls.mountPath | quote }}
+              readOnly: true
+            - name: mysql-tls-plugin
+              mountPath: /var/www/html/plugins-enabled/001-login-ssl.php
+              subPath: 001-login-ssl.php
+              readOnly: true
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      {{- if .Values.mysqlTls.enabled }}
+      volumes:
+        - name: mysql-tls
+          secret:
+            secretName: {{ required "mysqlTls.secretName is required when mysqlTls.enabled=true" .Values.mysqlTls.secretName | quote }}
+        - name: mysql-tls-plugin
+          configMap:
+            name: {{ include "adminer.fullname" . }}-mysql-tls-plugin
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

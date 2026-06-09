@@ -96,3 +96,14 @@ env: {}
 # env:
 #   ADMINER_PLUGINS: "designs tables-filter tinymce"
 #   ADMINER_DESIGN: "pepa-linha-dark"
+
+# -- Configure Adminer's login-ssl plugin for MySQL servers that require TLS.
+mysqlTls:
+  # -- Enable mounting the MySQL CA Secret and loading the configured login-ssl plugin.
+  enabled: false
+  # -- Name of the Secret containing the CA file. Required when mysqlTls.enabled is true.
+  secretName: ''
+  # -- Path where the MySQL TLS Secret is mounted in the Adminer container.
+  mountPath: /etc/mysql-tls
+  # -- Filename of the CA certificate inside the mounted Secret.
+  caFilename: ca.crt

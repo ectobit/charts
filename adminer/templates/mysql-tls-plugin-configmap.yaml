@@ -1,0 +1,16 @@
+{{- if .Values.mysqlTls.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "adminer.fullname" . }}-mysql-tls-plugin
+  labels:
+    {{- include "adminer.labels" . | nindent 4 }}
+data:
+  001-login-ssl.php: |
+    <?php
+    require_once('plugins/login-ssl.php');
+
+    return new AdminerLoginSsl([
+        'ca' => '{{ clean .Values.mysqlTls.mountPath }}/{{ .Values.mysqlTls.caFilename }}',
+    ]);
+{{- end }}

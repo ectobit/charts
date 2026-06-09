@@ -40,6 +40,21 @@ releases:
         - adminer.your-domain.com
 ```
 
+## MySQL TLS
+
+Set `mysqlTls.enabled=true` and `mysqlTls.secretName` to mount a CA Secret and
+load Adminer's `login-ssl` plugin with the required constructor configuration.
+Do not set `ADMINER_PLUGINS=login-ssl`; Adminer's stock plugin loader cannot
+instantiate plugins that require constructor parameters.
+
+```yaml
+env:
+  ADMINER_DEFAULT_SERVER: mysql
+mysqlTls:
+  enabled: true
+  secretName: mysql-ca
+```
+
 {{ template "chart.homepageLine" . }}
 
 {{ template "chart.maintainersSection" . }}
