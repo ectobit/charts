@@ -120,7 +120,7 @@ config:
 
 | Repository                         | Name  | Version |
 | ---------------------------------- | ----- | ------- |
-| https://charts.bitnami.com/bitnami | redis | 27.0.4  |
+| https://charts.bitnami.com/bitnami | redis | 27.0.10 |
 
 ## Values
 
