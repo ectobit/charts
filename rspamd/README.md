@@ -2,7 +2,7 @@
 
 Rspamd Helm chart for Kubernetes
 
-![Version: 0.12.3](https://img.shields.io/badge/Version-0.12.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 4.0.1-alpine3.24.1](https://img.shields.io/badge/AppVersion-4.0.1--alpine3.24.1-informational?style=flat-square)
+![Version: 0.12.4](https://img.shields.io/badge/Version-0.12.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 4.0.1-alpine3.24.1](https://img.shields.io/badge/AppVersion-4.0.1--alpine3.24.1-informational?style=flat-square)
 [![rspamd](https://github.com/ectobit/charts/actions/workflows/rspamd.yml/badge.svg)](https://github.com/ectobit/charts/actions/workflows/rspamd.yml)
 [![License](https://img.shields.io/badge/license-BSD--2--Clause--Patent-orange.svg)](https://github.com/ectobit/charts/blob/main/rspamd/LICENSE)
 
@@ -87,6 +87,24 @@ config:
     }
 ```
 
+## Settings overrides
+
+Use `config.settings` to render `/etc/rspamd/local.d/settings.conf` for scoped policy overrides.
+
+```yaml
+config:
+  settings: |
+    trusted_outbound {
+      priority = high;
+      local = true;
+      from = "noreply@example.com";
+
+      apply {
+        symbols_disabled = ["SPOOF_REPLYTO", "FREEMAIL_REPLYTO_NEQ_FROM"];
+      }
+    }
+```
+
 ## ARC verification
 
 Use `config.arc` to render `/etc/rspamd/local.d/arc.conf`. To enable ARC verification without ARC signing, leave signing disabled:
@@ -142,6 +160,7 @@ config:
 | config.options                      | string | `""`                                                                                                                                                                                                                                                                                                                       | Additional Rspamd options rendered to /etc/rspamd/local.d/options.inc.                                                 |
 | config.overrideClassifierBayes      | string | `"autolearn = true;\n"`                                                                                                                                                                                                                                                                                                    |                                                                                                                        |
 | config.rbl                          | string | `""`                                                                                                                                                                                                                                                                                                                       | Rspamd RBL overrides rendered to /etc/rspamd/local.d/rbl.conf. Use this to disable or override individual RBL rules.   |
+| config.settings                     | string | `""`                                                                                                                                                                                                                                                                                                                       | Rspamd settings rendered to /etc/rspamd/local.d/settings.conf. Use this for scoped policy overrides.                   |
 | config.whitelist.fromMap            | string | `""`                                                                                                                                                                                                                                                                                                                       |                                                                                                                        |
 | config.whitelist.ipMap              | string | `""`                                                                                                                                                                                                                                                                                                                       |                                                                                                                        |
 | config.workerController.bindSocket  | string | `"localhost:11334"`                                                                                                                                                                                                                                                                                                        | Rspamd controller bind socket. Keep localhost-only unless namespace-local access is required.                          |

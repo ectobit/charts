@@ -50,6 +50,9 @@ data:
 {{- with .Values.config.rbl }}
   rbl.conf: |{{ . | nindent 4 }}
 {{- end }}
+{{- with .Values.config.settings }}
+  settings.conf: |{{ . | nindent 4 }}
+{{- end }}
 {{- with .Values.config.arc }}
   arc.conf: |{{ . | nindent 4 }}
 {{- end }}

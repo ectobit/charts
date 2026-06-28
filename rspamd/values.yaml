@@ -69,6 +69,8 @@ config:
   arc: ''
   # -- Rspamd RBL overrides rendered to /etc/rspamd/local.d/rbl.conf. Use this to disable or override individual RBL rules.
   rbl: ''
+  # -- Rspamd settings rendered to /etc/rspamd/local.d/settings.conf. Use this for scoped policy overrides.
+  settings: ''
   historyRedis:
     # -- Render /etc/rspamd/local.d/history_redis.conf when redis.enabled is true.
     enabled: true

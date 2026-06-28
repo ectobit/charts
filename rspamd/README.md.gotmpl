@@ -88,6 +88,24 @@ config:
     }
 ```
 
+## Settings overrides
+
+Use `config.settings` to render `/etc/rspamd/local.d/settings.conf` for scoped policy overrides.
+
+```yaml
+config:
+  settings: |
+    trusted_outbound {
+      priority = high;
+      local = true;
+      from = "noreply@example.com";
+
+      apply {
+        symbols_disabled = ["SPOOF_REPLYTO", "FREEMAIL_REPLYTO_NEQ_FROM"];
+      }
+    }
+```
+
 ## ARC verification
 
 Use `config.arc` to render `/etc/rspamd/local.d/arc.conf`. To enable ARC verification without ARC signing, leave signing disabled:

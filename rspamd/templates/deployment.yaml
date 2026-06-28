@@ -81,6 +81,11 @@ spec:
               mountPath: /etc/rspamd/local.d/rbl.conf
               subPath: rbl.conf
           {{- end }}
+          {{- with .Values.config.settings }}
+            - name: config
+              mountPath: /etc/rspamd/local.d/settings.conf
+              subPath: settings.conf
+          {{- end }}
           {{- with .Values.config.arc }}
             - name: config
               mountPath: /etc/rspamd/local.d/arc.conf
