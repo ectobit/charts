@@ -2,7 +2,7 @@
 
 Rspamd Helm chart for Kubernetes
 
-![Version: 0.13.0](https://img.shields.io/badge/Version-0.13.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 4.0.1-alpine3.24.1](https://img.shields.io/badge/AppVersion-4.0.1--alpine3.24.1-informational?style=flat-square)
+![Version: 0.13.1](https://img.shields.io/badge/Version-0.13.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 4.0.1-alpine3.24.1](https://img.shields.io/badge/AppVersion-4.0.1--alpine3.24.1-informational?style=flat-square)
 [![rspamd](https://github.com/ectobit/charts/actions/workflows/rspamd.yml/badge.svg)](https://github.com/ectobit/charts/actions/workflows/rspamd.yml)
 [![License](https://img.shields.io/badge/license-BSD--2--Clause--Patent-orange.svg)](https://github.com/ectobit/charts/blob/main/rspamd/LICENSE)
 
@@ -164,7 +164,7 @@ externalRedis:
 
 | Repository                         | Name  | Version |
 | ---------------------------------- | ----- | ------- |
-| https://charts.bitnami.com/bitnami | redis | 27.0.10 |
+| https://charts.bitnami.com/bitnami | redis | 27.0.12 |
 
 ## Values
 
