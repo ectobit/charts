@@ -1,3 +1,4 @@
+{{- include "rspamd.validateRedis" . -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -6,18 +7,13 @@ metadata:
 data:
 {{- if .Values.redis.enabled }}
   redis.conf: |
-    servers = "{{ .Release.Name }}-redis-master";
+{{ include "rspamd.redisConfig" . | nindent 4 }}
 {{- if .Values.config.historyRedis.enabled }}
   history_redis.conf: |
-    servers = {{ .Release.Name }}-redis-master:6379;
-    key_prefix = {{ .Values.config.historyRedis.keyPrefix | quote }};
-    nrows = {{ .Values.config.historyRedis.nrows }};
-    compress = {{ .Values.config.historyRedis.compress }};
-    subject_privacy = {{ .Values.config.historyRedis.subjectPrivacy }};
-{{- with .Values.config.historyRedis.extraConfig }}
-{{ . | nindent 4 }}
+{{ include "rspamd.historyRedisConfig" . | nindent 4 }}
 {{- end }}
 {{- end }}
+{{- if include "rspamd.redisEnabled" . }}
   classifier-bayes.conf: |
     backend = "redis";
 {{- else }}

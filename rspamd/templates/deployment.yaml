@@ -1,3 +1,4 @@
+{{- include "rspamd.validateRedis" . -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -13,6 +14,10 @@ spec:
     metadata:
       annotations:
         checksum/config: {{ toYaml .Values.config | sha256sum }}
+        checksum/redis-config: {{ printf "%s\n%s\n%s" (include "rspamd.redisEnabled" .) (include "rspamd.redisConfig" .) (include "rspamd.historyRedisConfig" .) | sha256sum }}
+    {{- if .Values.externalRedis.enabled }}
+        checksum/external-redis-secret: {{ toYaml .Values.externalRedis | sha256sum }}
+    {{- end }}
     {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
     {{- end }}
@@ -45,20 +50,33 @@ spec:
             - name: fuzzy
               containerPort: 11335
               protocol: TCP
+        {{- if and .Values.externalRedis.enabled .Values.externalRedis.existingSecret }}
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.externalRedis.existingSecret }}
+                  key: {{ .Values.externalRedis.existingSecretPasswordKey }}
+        {{- end }}
           volumeMounts:
             - name: data
               mountPath: /var/lib/rspamd
             - name: run
               mountPath: /run/rspamd
-          {{- if .Values.redis.enabled }}
-            - name: config
+          {{- if include "rspamd.redisEnabled" . }}
+            - name: {{ ternary "redis-config" "config" .Values.externalRedis.enabled }}
               mountPath: /etc/rspamd/local.d/redis.conf
               subPath: redis.conf
           {{- if .Values.config.historyRedis.enabled }}
-            - name: config
+            - name: {{ ternary "redis-config" "config" .Values.externalRedis.enabled }}
               mountPath: /etc/rspamd/local.d/history_redis.conf
               subPath: history_redis.conf
           {{- end }}
+          {{- end }}
+          {{- if and .Values.externalRedis.enabled .Values.externalRedis.tls.enabled .Values.externalRedis.tls.existingSecret }}
+            - name: redis-tls
+              mountPath: /etc/rspamd/redis-tls
+              readOnly: true
           {{- end }}
             - name: config
               mountPath: /etc/rspamd/local.d/worker-normal.inc
@@ -153,6 +171,16 @@ spec:
         - name: config
           configMap:
             name: {{include "rspamd.fullname" .}}
+      {{- if .Values.externalRedis.enabled }}
+        - name: redis-config
+          secret:
+            secretName: {{ include "rspamd.redisConfigSecretName" . }}
+      {{- end }}
+      {{- if and .Values.externalRedis.enabled .Values.externalRedis.tls.enabled .Values.externalRedis.tls.existingSecret }}
+        - name: redis-tls
+          secret:
+            secretName: {{ .Values.externalRedis.tls.existingSecret }}
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

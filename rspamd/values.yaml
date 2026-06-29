@@ -72,7 +72,7 @@ config:
   # -- Rspamd settings rendered to /etc/rspamd/local.d/settings.conf. Use this for scoped policy overrides.
   settings: ''
   historyRedis:
-    # -- Render /etc/rspamd/local.d/history_redis.conf when redis.enabled is true.
+    # -- Render /etc/rspamd/local.d/history_redis.conf when embedded or external Redis is enabled.
     enabled: true
     # -- Redis history key prefix. The default matches Rspamd upstream and expands inside Rspamd.
     keyPrefix: 'rs_history{{HOSTNAME}}{{COMPRESS}}'
@@ -132,6 +132,41 @@ redis:
   auth:
     # -- Enable Redis password authentication. Keep disabled unless Rspamd Redis password configuration is provided separately.
     enabled: false
+
+externalRedis:
+  # -- Use an external Redis-compatible backend, such as Valkey, instead of the embedded Redis dependency.
+  enabled: false
+  # -- External Redis or Valkey hostname.
+  host: ''
+  # -- External Redis or Valkey port.
+  port: 6379
+  # -- Optional Redis database number rendered as Rspamd `db`.
+  db: ''
+  # -- Optional Redis ACL username.
+  username: ''
+  # -- Optional Redis password. Rendered into a Secret, not a ConfigMap. Prefer existingSecret for production.
+  password: ''
+  # -- Existing Secret containing the Redis password. The password is exposed to Rspamd through REDIS_PASSWORD.
+  existingSecret: ''
+  # -- Key in externalRedis.existingSecret containing the Redis password.
+  existingSecretPasswordKey: password
+  # -- Optional Rspamd Redis timeout value.
+  timeout: ''
+  tls:
+    # -- Enable TLS for the external Redis connection.
+    enabled: false
+    # -- Existing Secret containing the TLS CA and optional client certificate/key files.
+    existingSecret: ''
+    # -- CA filename inside externalRedis.tls.existingSecret.
+    caFilename: ca.crt
+    # -- Optional client certificate filename inside externalRedis.tls.existingSecret.
+    certFilename: ''
+    # -- Optional client certificate key filename inside externalRedis.tls.existingSecret.
+    certKeyFilename: ''
+    # -- Optional TLS SNI name.
+    sni: ''
+    # -- Disable TLS certificate verification. Leave false unless the backend certificate cannot be verified.
+    noVerify: false
 
 persistence:
   enabled: false
