@@ -116,7 +116,7 @@ spec:
               mountPath: /etc/rspamd/local.d/worker-proxy.inc
               subPath: worker-proxy.inc
           {{- if .Values.config.workerController.enabled }}
-            - name: config
+            - name: {{ ternary "controller-config" "config" (not (empty .Values.config.workerController.password)) }}
               mountPath: /etc/rspamd/local.d/worker-controller.inc
               subPath: worker-controller.inc
           {{- end }}
@@ -202,6 +202,11 @@ spec:
         - name: config
           configMap:
             name: {{include "rspamd.fullname" .}}
+      {{- if and .Values.config.workerController.enabled .Values.config.workerController.password }}
+        - name: controller-config
+          secret:
+            secretName: {{ include "rspamd.controllerConfigSecretName" . }}
+      {{- end }}
       {{- if .Values.externalRedis.enabled }}
         - name: redis-config
           secret:

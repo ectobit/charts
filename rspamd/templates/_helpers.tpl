@@ -68,6 +68,9 @@ Validate mutually exclusive Redis modes.
 {{- if and .Values.redis.enabled .Values.externalRedis.enabled -}}
 {{- fail "redis.enabled and externalRedis.enabled cannot both be true" -}}
 {{- end -}}
+{{- if and .Values.redis.enabled .Values.redis.auth.enabled -}}
+{{- fail "redis.auth.enabled is not supported by this chart; use externalRedis.password or externalRedis.existingSecret for authenticated Redis" -}}
+{{- end -}}
 {{- if .Values.externalRedis.enabled -}}
 {{- if not .Values.externalRedis.host -}}
 {{- fail "externalRedis.host is required when externalRedis.enabled is true" -}}
@@ -99,6 +102,29 @@ External Redis config Secret name.
 */}}
 {{- define "rspamd.redisConfigSecretName" -}}
 {{- printf "%s-redis-config" (include "rspamd.fullname" .) | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+Controller config Secret name.
+*/}}
+{{- define "rspamd.controllerConfigSecretName" -}}
+{{- printf "%s-controller-config" (include "rspamd.fullname" .) | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+Rspamd controller worker config.
+*/}}
+{{- define "rspamd.workerControllerConfig" -}}
+bind_socket = {{ .Values.config.workerController.bindSocket | quote }};
+{{- range .Values.config.workerController.secureIp }}
+secure_ip = {{ . | quote }};
+{{- end }}
+{{- with .Values.config.workerController.password }}
+password = {{ . | quote }};
+{{- end }}
+{{- with .Values.config.workerController.extraConfig }}
+{{ . }}
+{{- end }}
 {{- end }}
 
 {{/*

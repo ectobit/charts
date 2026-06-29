@@ -65,6 +65,15 @@ assert_contains "${tmp_dir}/external.yaml" 'servers = "valkey.db.svc.cluster.loc
 assert_contains "${tmp_dir}/external.yaml" 'db = "0";'
 assert_contains "${tmp_dir}/external.yaml" 'username = "rspamd";'
 assert_not_contains "${tmp_dir}/external.yaml" 'password = "$REDIS_PASSWORD";'
+awk '
+  /^# Source: rspamd\/templates\/redis-secret.yaml$/ { in_secret = 1 }
+  /^---$/ && in_secret { in_secret = 0 }
+  in_secret && /password = / { found = 1 }
+  END { exit found ? 1 : 0 }
+' "${tmp_dir}/external.yaml" || {
+  echo "expected existingSecret Redis template Secret not to contain a password line" >&2
+  exit 1
+}
 assert_contains "${tmp_dir}/external.yaml" 'name: render-redis-config'
 assert_contains "${tmp_dir}/external.yaml" 'cp /redis-template/redis.conf /redis-config/redis.conf'
 assert_contains "${tmp_dir}/external.yaml" 'cp /redis-template/history_redis.conf /redis-config/history_redis.conf'
@@ -159,3 +168,35 @@ if helm template rspamd "$chart_dir" --set redis.enabled=true --set externalRedi
   exit 1
 fi
 assert_contains "${tmp_dir}/both.err" "redis.enabled and externalRedis.enabled cannot both be true"
+
+if helm template rspamd "$chart_dir" --set redis.enabled=true --set redis.auth.enabled=true >"${tmp_dir}/redis-auth.yaml" 2>"${tmp_dir}/redis-auth.err"; then
+  echo "expected embedded Redis auth to fail until Rspamd password rendering is supported" >&2
+  exit 1
+fi
+assert_contains "${tmp_dir}/redis-auth.err" "redis.auth.enabled is not supported by this chart"
+
+helm template rspamd "$chart_dir" --set config.workerController.password=controller-secret >"${tmp_dir}/controller-password.yaml"
+assert_contains "${tmp_dir}/controller-password.yaml" 'kind: Secret'
+assert_contains "${tmp_dir}/controller-password.yaml" 'name: rspamd-controller-config'
+assert_contains "${tmp_dir}/controller-password.yaml" 'password = "controller-secret";'
+assert_contains "${tmp_dir}/controller-password.yaml" 'secretName: rspamd-controller-config'
+awk '
+  /^kind: ConfigMap$/ { in_configmap = 1 }
+  /^---$/ { in_configmap = 0 }
+  in_configmap && /controller-secret/ { found = 1 }
+  END { exit found ? 1 : 0 }
+' "${tmp_dir}/controller-password.yaml" || {
+  echo "expected ConfigMaps not to contain controller passwords" >&2
+  exit 1
+}
+
+helm template rspamd "$chart_dir" --set persistence.enabled=true >"${tmp_dir}/pvc.yaml"
+awk '
+  /^# Source: rspamd\/templates\/pvc.yaml$/ { in_pvc = 1 }
+  /^---$/ && in_pvc { in_pvc = 0 }
+  in_pvc && /^  annotations:$/ { found = 1 }
+  END { exit found ? 1 : 0 }
+' "${tmp_dir}/pvc.yaml" || {
+  echo "expected PVC not to render empty annotations" >&2
+  exit 1
+}

@@ -93,7 +93,7 @@ config:
     secureIp:
       - '127.0.0.1'
       - '::1'
-    # -- Optional controller password.
+    # -- Optional controller password. Rendered into a Secret, not a ConfigMap.
     password: ''
     # -- Additional raw Rspamd controller worker configuration.
     extraConfig: ''
@@ -130,7 +130,7 @@ redis:
   # -- Redis deployment architecture.
   architecture: standalone
   auth:
-    # -- Enable Redis password authentication. Keep disabled unless Rspamd Redis password configuration is provided separately.
+    # -- Embedded Redis password authentication is not supported by this chart. Use externalRedis.password or externalRedis.existingSecret for authenticated Redis or Valkey.
     enabled: false
 
 externalRedis:

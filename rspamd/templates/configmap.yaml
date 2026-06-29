@@ -27,18 +27,9 @@ data:
       default = yes;
       self_scan = yes;
     }
-{{- if .Values.config.workerController.enabled }}
+{{- if and .Values.config.workerController.enabled (not .Values.config.workerController.password) }}
   worker-controller.inc: |
-    bind_socket = {{ .Values.config.workerController.bindSocket | quote }};
-{{- range .Values.config.workerController.secureIp }}
-    secure_ip = {{ . | quote }};
-{{- end }}
-{{- with .Values.config.workerController.password }}
-    password = {{ . | quote }};
-{{- end }}
-{{- with .Values.config.workerController.extraConfig }}
-{{ . | nindent 4 }}
-{{- end }}
+{{ include "rspamd.workerControllerConfig" . | nindent 4 }}
 {{- end }}
 {{- with .Values.config.options }}
   options.inc: |{{ . | nindent 4 }}

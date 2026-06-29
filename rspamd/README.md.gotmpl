@@ -128,6 +128,8 @@ config:
     keyPrefix: 'rs_history{{ "{{" }}HOSTNAME{{ "}}" }}{{ "{{" }}COMPRESS{{ "}}" }}'
 ```
 
+Embedded Redis password authentication with `redis.auth.enabled=true` is not supported by this chart. Use `externalRedis.password` or `externalRedis.existingSecret` for authenticated Redis or Valkey.
+
 ## External Redis or Valkey
 
 Set `externalRedis.enabled=true` to use a Redis-compatible service outside this chart, such as a separate Valkey release. Do not enable `redis.enabled` at the same time; the chart fails rendering when both modes are enabled.
