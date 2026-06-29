@@ -64,7 +64,14 @@ assert_contains "${tmp_dir}/external.yaml" 'name: rspamd-redis-config'
 assert_contains "${tmp_dir}/external.yaml" 'servers = "valkey.db.svc.cluster.local:6379";'
 assert_contains "${tmp_dir}/external.yaml" 'db = "0";'
 assert_contains "${tmp_dir}/external.yaml" 'username = "rspamd";'
-assert_contains "${tmp_dir}/external.yaml" 'password = "$REDIS_PASSWORD";'
+assert_not_contains "${tmp_dir}/external.yaml" 'password = "$REDIS_PASSWORD";'
+assert_contains "${tmp_dir}/external.yaml" 'name: render-redis-config'
+assert_contains "${tmp_dir}/external.yaml" 'cp /redis-template/redis.conf /redis-config/redis.conf'
+assert_contains "${tmp_dir}/external.yaml" 'cp /redis-template/history_redis.conf /redis-config/history_redis.conf'
+assert_contains "${tmp_dir}/external.yaml" 'mountPath: /redis-template'
+assert_contains "${tmp_dir}/external.yaml" 'mountPath: /redis-config'
+assert_contains "${tmp_dir}/external.yaml" 'name: redis-config-rendered'
+assert_contains "${tmp_dir}/external.yaml" 'emptyDir: {}'
 assert_contains "${tmp_dir}/external.yaml" 'ssl = true;'
 assert_contains "${tmp_dir}/external.yaml" 'ssl_ca = "/etc/rspamd/redis-tls/ca.crt";'
 assert_contains "${tmp_dir}/external.yaml" 'ssl_cert = "/etc/rspamd/redis-tls/tls.crt";'
@@ -78,6 +85,8 @@ assert_contains "${tmp_dir}/external.yaml" 'secretName: valkey-ca'
 assert_contains "${tmp_dir}/external.yaml" 'mountPath: /etc/rspamd/redis-tls'
 assert_contains "${tmp_dir}/external.yaml" 'mountPath: /etc/rspamd/local.d/redis.conf'
 assert_contains "${tmp_dir}/external.yaml" 'mountPath: /etc/rspamd/local.d/history_redis.conf'
+assert_contains "${tmp_dir}/external.yaml" 'subPath: redis.conf'
+assert_contains "${tmp_dir}/external.yaml" 'subPath: history_redis.conf'
 assert_contains "${tmp_dir}/external.yaml" 'checksum/redis-config:'
 assert_contains "${tmp_dir}/external.yaml" 'checksum/external-redis-secret:'
 awk '
@@ -105,6 +114,45 @@ VALUES
 
 helm template rspamd "$chart_dir" -f "${tmp_dir}/external-insecure-values.yaml" >"${tmp_dir}/external-insecure.yaml"
 assert_contains "${tmp_dir}/external-insecure.yaml" 'no_ssl_verify = true;'
+
+cat >"${tmp_dir}/external-inline-password-values.yaml" <<'VALUES'
+redis:
+  enabled: false
+
+externalRedis:
+  enabled: true
+  host: valkey.db.svc.cluster.local
+  password: inline-secret
+VALUES
+
+helm template rspamd "$chart_dir" -f "${tmp_dir}/external-inline-password-values.yaml" >"${tmp_dir}/external-inline-password.yaml"
+assert_contains "${tmp_dir}/external-inline-password.yaml" 'kind: Secret'
+assert_contains "${tmp_dir}/external-inline-password.yaml" 'name: rspamd-redis-config'
+assert_contains "${tmp_dir}/external-inline-password.yaml" 'password = "inline-secret";'
+awk '
+  /^kind: ConfigMap$/ { in_configmap = 1 }
+  /^---$/ { in_configmap = 0 }
+  in_configmap && /password = / { found = 1 }
+  END { exit found ? 1 : 0 }
+' "${tmp_dir}/external-inline-password.yaml" || {
+  echo "expected ConfigMaps not to contain inline Redis passwords" >&2
+  exit 1
+}
+
+cat >"${tmp_dir}/external-passwordless-values.yaml" <<'VALUES'
+redis:
+  enabled: false
+
+externalRedis:
+  enabled: true
+  host: valkey.db.svc.cluster.local
+VALUES
+
+helm template rspamd "$chart_dir" -f "${tmp_dir}/external-passwordless-values.yaml" >"${tmp_dir}/external-passwordless.yaml"
+assert_contains "${tmp_dir}/external-passwordless.yaml" 'kind: Secret'
+assert_contains "${tmp_dir}/external-passwordless.yaml" 'servers = "valkey.db.svc.cluster.local:6379";'
+assert_not_contains "${tmp_dir}/external-passwordless.yaml" 'password = '
+assert_not_contains "${tmp_dir}/external-passwordless.yaml" 'name: render-redis-config'
 
 if helm template rspamd "$chart_dir" --set redis.enabled=true --set externalRedis.enabled=true >"${tmp_dir}/both.yaml" 2>"${tmp_dir}/both.err"; then
   echo "expected embedded and external Redis together to fail" >&2

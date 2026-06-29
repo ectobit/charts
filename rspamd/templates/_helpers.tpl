@@ -114,8 +114,8 @@ db = {{ . | quote }};
 {{- with .Values.externalRedis.username }}
 username = {{ . | quote }};
 {{- end }}
-{{- if or .Values.externalRedis.password .Values.externalRedis.existingSecret }}
-password = {{ ternary "$REDIS_PASSWORD" .Values.externalRedis.password (not (empty .Values.externalRedis.existingSecret)) | quote }};
+{{- with .Values.externalRedis.password }}
+password = {{ . | quote }};
 {{- end }}
 {{- if .Values.externalRedis.tls.enabled }}
 ssl = true;

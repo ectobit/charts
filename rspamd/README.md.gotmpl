@@ -132,7 +132,7 @@ config:
 
 Set `externalRedis.enabled=true` to use a Redis-compatible service outside this chart, such as a separate Valkey release. Do not enable `redis.enabled` at the same time; the chart fails rendering when both modes are enabled.
 
-When `externalRedis.existingSecret` is set, the password is read from that Secret through the `REDIS_PASSWORD` environment variable and the generated Redis config is mounted from a Kubernetes Secret instead of the chart ConfigMap. TLS CA/client files are mounted only when `externalRedis.tls.enabled=true` and `externalRedis.tls.existingSecret` is set.
+When `externalRedis.existingSecret` is set, the chart-generated Secret stores Redis config templates without the password. An init container reads the password from the referenced Secret through `REDIS_PASSWORD`, writes final `redis.conf` and `history_redis.conf` files into an `emptyDir`, and the Rspamd container mounts those rendered files. Inline `externalRedis.password` is rendered into the chart-generated Secret, not a ConfigMap. TLS CA/client files are mounted only when `externalRedis.tls.enabled=true` and `externalRedis.tls.existingSecret` is set.
 
 ```yaml
 redis:

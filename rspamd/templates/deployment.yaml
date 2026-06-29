@@ -31,6 +31,45 @@ spec:
       serviceAccountName: {{ include "rspamd.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+    {{- if and .Values.externalRedis.enabled .Values.externalRedis.existingSecret }}
+      initContainers:
+        - name: render-redis-config
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - /bin/sh
+            - -ec
+            - |
+              cp /redis-template/redis.conf /redis-config/redis.conf
+              if [ -f /redis-template/history_redis.conf ]; then
+                cp /redis-template/history_redis.conf /redis-config/history_redis.conf
+              fi
+
+              append_password() {
+                file="$1"
+                [ -f "$file" ] || return 0
+                awk -v password="$REDIS_PASSWORD" 'BEGIN {
+                  gsub(/\\/, "\\\\", password)
+                  gsub(/"/, "\\\"", password)
+                  printf "password = \"%s\";\n", password
+                }' >> "$file"
+              }
+
+              append_password /redis-config/redis.conf
+              append_password /redis-config/history_redis.conf
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.externalRedis.existingSecret }}
+                  key: {{ .Values.externalRedis.existingSecretPasswordKey }}
+          volumeMounts:
+            - name: redis-config
+              mountPath: /redis-template
+              readOnly: true
+            - name: redis-config-rendered
+              mountPath: /redis-config
+    {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -50,25 +89,17 @@ spec:
             - name: fuzzy
               containerPort: 11335
               protocol: TCP
-        {{- if and .Values.externalRedis.enabled .Values.externalRedis.existingSecret }}
-          env:
-            - name: REDIS_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.externalRedis.existingSecret }}
-                  key: {{ .Values.externalRedis.existingSecretPasswordKey }}
-        {{- end }}
           volumeMounts:
             - name: data
               mountPath: /var/lib/rspamd
             - name: run
               mountPath: /run/rspamd
           {{- if include "rspamd.redisEnabled" . }}
-            - name: {{ ternary "redis-config" "config" .Values.externalRedis.enabled }}
+            - name: {{- if and .Values.externalRedis.enabled .Values.externalRedis.existingSecret }} redis-config-rendered{{- else if .Values.externalRedis.enabled }} redis-config{{- else }} config{{- end }}
               mountPath: /etc/rspamd/local.d/redis.conf
               subPath: redis.conf
           {{- if .Values.config.historyRedis.enabled }}
-            - name: {{ ternary "redis-config" "config" .Values.externalRedis.enabled }}
+            - name: {{- if and .Values.externalRedis.enabled .Values.externalRedis.existingSecret }} redis-config-rendered{{- else if .Values.externalRedis.enabled }} redis-config{{- else }} config{{- end }}
               mountPath: /etc/rspamd/local.d/history_redis.conf
               subPath: history_redis.conf
           {{- end }}
@@ -175,6 +206,10 @@ spec:
         - name: redis-config
           secret:
             secretName: {{ include "rspamd.redisConfigSecretName" . }}
+      {{- end }}
+      {{- if and .Values.externalRedis.enabled .Values.externalRedis.existingSecret }}
+        - name: redis-config-rendered
+          emptyDir: {}
       {{- end }}
       {{- if and .Values.externalRedis.enabled .Values.externalRedis.tls.enabled .Values.externalRedis.tls.existingSecret }}
         - name: redis-tls

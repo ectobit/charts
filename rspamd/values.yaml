@@ -146,7 +146,7 @@ externalRedis:
   username: ''
   # -- Optional Redis password. Rendered into a Secret, not a ConfigMap. Prefer existingSecret for production.
   password: ''
-  # -- Existing Secret containing the Redis password. The password is exposed to Rspamd through REDIS_PASSWORD.
+  # -- Existing Secret containing the Redis password. An init container reads it through REDIS_PASSWORD and writes the final Redis config to an emptyDir before Rspamd starts.
   existingSecret: ''
   # -- Key in externalRedis.existingSecret containing the Redis password.
   existingSecretPasswordKey: password
