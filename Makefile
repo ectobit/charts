@@ -1,10 +1,13 @@
-.PHONY: gen-chart-docs lint test-rspamd update-deps
+.PHONY: gen-chart-docs lint test-adminer test-rspamd update-deps
 
 lint:
 	helm lint adminer
 	helm lint budgie
 	helm lint pgweb
 	helm lint rspamd
+
+test-adminer:
+	bash adminer/tests/render-postgresql-tls.sh
 
 test-rspamd:
 	bash rspamd/tests/render-external-redis.sh

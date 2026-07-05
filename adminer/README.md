@@ -2,7 +2,7 @@
 
 Adminer Helm chart for Kubernetes
 
-![Version: 0.2.0](https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 5.4.2](https://img.shields.io/badge/AppVersion-5.4.2-informational?style=flat-square)
+![Version: 0.3.0](https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 5.4.2](https://img.shields.io/badge/AppVersion-5.4.2-informational?style=flat-square)
 [![adminer](https://github.com/ectobit/charts/actions/workflows/adminer.yml/badge.svg)](https://github.com/ectobit/charts/actions/workflows/adminer.yml)
 [![License](https://img.shields.io/badge/license-BSD--2--Clause--Patent-orange.svg)](https://github.com/ectobit/charts/blob/main/adminer/LICENSE)
 
@@ -54,6 +54,20 @@ mysqlTls:
   secretName: mysql-ca
 ```
 
+## PostgreSQL TLS
+
+Set `postgresqlTls.enabled=true` and `postgresqlTls.secretName` to mount a CA
+Secret, set `PGSSLMODE` and `PGSSLROOTCERT`, and load Adminer's `login-ssl`
+plugin for PostgreSQL connections.
+
+```yaml
+env:
+  ADMINER_DEFAULT_SERVER: postgresql
+postgresqlTls:
+  enabled: true
+  secretName: postgresql-ca
+```
+
 **Homepage:** <https://github.com/ectobit/charts>
 
 ## Source Code
@@ -64,41 +78,47 @@ mysqlTls:
 
 ## Values
 
-| Key                                        | Type   | Default                                                                                | Description                                                                        |
-| ------------------------------------------ | ------ | -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| affinity                                   | object | `{}`                                                                                   |                                                                                    |
-| autoscaling.enabled                        | bool   | `false`                                                                                |                                                                                    |
-| autoscaling.maxReplicas                    | int    | `100`                                                                                  |                                                                                    |
-| autoscaling.minReplicas                    | int    | `1`                                                                                    |                                                                                    |
-| autoscaling.targetCPUUtilizationPercentage | int    | `80`                                                                                   |                                                                                    |
-| env                                        | object | `{}`                                                                                   |                                                                                    |
-| fullnameOverride                           | string | `""`                                                                                   |                                                                                    |
-| image.pullPolicy                           | string | `"IfNotPresent"`                                                                       |                                                                                    |
-| image.repository                           | string | `"adminer"`                                                                            |                                                                                    |
-| image.tag                                  | string | `""`                                                                                   |                                                                                    |
-| imagePullSecrets                           | list   | `[]`                                                                                   |                                                                                    |
-| ingress.annotations                        | object | `{}`                                                                                   |                                                                                    |
-| ingress.className                          | string | `""`                                                                                   |                                                                                    |
-| ingress.enabled                            | bool   | `false`                                                                                |                                                                                    |
-| ingress.hosts[0].host                      | string | `"chart-example.local"`                                                                |                                                                                    |
-| ingress.hosts[0].paths[0].path             | string | `"/"`                                                                                  |                                                                                    |
-| ingress.hosts[0].paths[0].pathType         | string | `"ImplementationSpecific"`                                                             |                                                                                    |
-| ingress.tls                                | list   | `[]`                                                                                   |                                                                                    |
-| mysqlTls                                   | object | `{"caFilename":"ca.crt","enabled":false,"mountPath":"/etc/mysql-tls","secretName":""}` | Configure Adminer's login-ssl plugin for MySQL servers that require TLS.           |
-| mysqlTls.caFilename                        | string | `"ca.crt"`                                                                             | Filename of the CA certificate inside the mounted Secret.                          |
-| mysqlTls.enabled                           | bool   | `false`                                                                                | Enable mounting the MySQL CA Secret and loading the configured login-ssl plugin.   |
-| mysqlTls.mountPath                         | string | `"/etc/mysql-tls"`                                                                     | Path where the MySQL TLS Secret is mounted in the Adminer container.               |
-| mysqlTls.secretName                        | string | `""`                                                                                   | Name of the Secret containing the CA file. Required when mysqlTls.enabled is true. |
-| nameOverride                               | string | `""`                                                                                   |                                                                                    |
-| nodeSelector                               | object | `{}`                                                                                   |                                                                                    |
-| podAnnotations                             | object | `{}`                                                                                   |                                                                                    |
-| podSecurityContext                         | object | `{}`                                                                                   |                                                                                    |
-| replicaCount                               | int    | `1`                                                                                    |                                                                                    |
-| resources                                  | object | `{}`                                                                                   |                                                                                    |
-| securityContext                            | object | `{}`                                                                                   |                                                                                    |
-| service.port                               | int    | `80`                                                                                   |                                                                                    |
-| service.type                               | string | `"ClusterIP"`                                                                          |                                                                                    |
-| serviceAccount.annotations                 | object | `{}`                                                                                   |                                                                                    |
-| serviceAccount.create                      | bool   | `true`                                                                                 |                                                                                    |
-| serviceAccount.name                        | string | `""`                                                                                   |                                                                                    |
-| tolerations                                | list   | `[]`                                                                                   |                                                                                    |
+| Key                                        | Type   | Default                                                                                                      | Description                                                                                                        |
+| ------------------------------------------ | ------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| affinity                                   | object | `{}`                                                                                                         |                                                                                                                    |
+| autoscaling.enabled                        | bool   | `false`                                                                                                      |                                                                                                                    |
+| autoscaling.maxReplicas                    | int    | `100`                                                                                                        |                                                                                                                    |
+| autoscaling.minReplicas                    | int    | `1`                                                                                                          |                                                                                                                    |
+| autoscaling.targetCPUUtilizationPercentage | int    | `80`                                                                                                         |                                                                                                                    |
+| env                                        | object | `{}`                                                                                                         |                                                                                                                    |
+| fullnameOverride                           | string | `""`                                                                                                         |                                                                                                                    |
+| image.pullPolicy                           | string | `"IfNotPresent"`                                                                                             |                                                                                                                    |
+| image.repository                           | string | `"adminer"`                                                                                                  |                                                                                                                    |
+| image.tag                                  | string | `""`                                                                                                         |                                                                                                                    |
+| imagePullSecrets                           | list   | `[]`                                                                                                         |                                                                                                                    |
+| ingress.annotations                        | object | `{}`                                                                                                         |                                                                                                                    |
+| ingress.className                          | string | `""`                                                                                                         |                                                                                                                    |
+| ingress.enabled                            | bool   | `false`                                                                                                      |                                                                                                                    |
+| ingress.hosts[0].host                      | string | `"chart-example.local"`                                                                                      |                                                                                                                    |
+| ingress.hosts[0].paths[0].path             | string | `"/"`                                                                                                        |                                                                                                                    |
+| ingress.hosts[0].paths[0].pathType         | string | `"ImplementationSpecific"`                                                                                   |                                                                                                                    |
+| ingress.tls                                | list   | `[]`                                                                                                         |                                                                                                                    |
+| mysqlTls                                   | object | `{"caFilename":"ca.crt","enabled":false,"mountPath":"/etc/mysql-tls","secretName":""}`                       | Configure Adminer's login-ssl plugin for MySQL servers that require TLS.                                           |
+| mysqlTls.caFilename                        | string | `"ca.crt"`                                                                                                   | Filename of the CA certificate inside the mounted Secret.                                                          |
+| mysqlTls.enabled                           | bool   | `false`                                                                                                      | Enable mounting the MySQL CA Secret and loading the configured login-ssl plugin.                                   |
+| mysqlTls.mountPath                         | string | `"/etc/mysql-tls"`                                                                                           | Path where the MySQL TLS Secret is mounted in the Adminer container.                                               |
+| mysqlTls.secretName                        | string | `""`                                                                                                         | Name of the Secret containing the CA file. Required when mysqlTls.enabled is true.                                 |
+| nameOverride                               | string | `""`                                                                                                         |                                                                                                                    |
+| nodeSelector                               | object | `{}`                                                                                                         |                                                                                                                    |
+| podAnnotations                             | object | `{}`                                                                                                         |                                                                                                                    |
+| podSecurityContext                         | object | `{}`                                                                                                         |                                                                                                                    |
+| postgresqlTls                              | object | `{"caKey":"ca.crt","enabled":false,"mountPath":"/etc/postgresql-tls","secretName":"","sslMode":"verify-ca"}` | Configure Adminer's login-ssl plugin and libpq/PDO environment for PostgreSQL servers that require TLS.            |
+| postgresqlTls.caKey                        | string | `"ca.crt"`                                                                                                   | Secret key containing the CA certificate.                                                                          |
+| postgresqlTls.enabled                      | bool   | `false`                                                                                                      | Enable mounting the PostgreSQL CA Secret, setting PGSSL* environment, and loading the configured login-ssl plugin. |
+| postgresqlTls.mountPath                    | string | `"/etc/postgresql-tls"`                                                                                      | Path where the PostgreSQL TLS Secret is mounted in the Adminer container.                                          |
+| postgresqlTls.secretName                   | string | `""`                                                                                                         | Name of the Secret containing the CA file. Required when postgresqlTls.enabled is true.                            |
+| postgresqlTls.sslMode                      | string | `"verify-ca"`                                                                                                | PostgreSQL sslmode value passed to PGSSLMODE and Adminer's login-ssl plugin.                                       |
+| replicaCount                               | int    | `1`                                                                                                          |                                                                                                                    |
+| resources                                  | object | `{}`                                                                                                         |                                                                                                                    |
+| securityContext                            | object | `{}`                                                                                                         |                                                                                                                    |
+| service.port                               | int    | `80`                                                                                                         |                                                                                                                    |
+| service.type                               | string | `"ClusterIP"`                                                                                                |                                                                                                                    |
+| serviceAccount.annotations                 | object | `{}`                                                                                                         |                                                                                                                    |
+| serviceAccount.create                      | bool   | `true`                                                                                                       |                                                                                                                    |
+| serviceAccount.name                        | string | `""`                                                                                                         |                                                                                                                    |
+| tolerations                                | list   | `[]`                                                                                                         |                                                                                                                    |

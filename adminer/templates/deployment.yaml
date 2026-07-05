@@ -33,11 +33,17 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- with .Values.env }}
+          {{- if or .Values.env .Values.postgresqlTls.enabled }}
           env:
-            {{- range $key, $value := . }}
+            {{- range $key, $value := .Values.env }}
             - name: {{ $key | quote }}
               value: {{ $value | quote }}
+            {{- end }}
+            {{- if .Values.postgresqlTls.enabled }}
+            - name: "PGSSLMODE"
+              value: {{ .Values.postgresqlTls.sslMode | quote }}
+            - name: "PGSSLROOTCERT"
+              value: "{{ clean .Values.postgresqlTls.mountPath }}/{{ .Values.postgresqlTls.caKey }}"
             {{- end }}
           {{- end }}
           ports:
@@ -52,8 +58,9 @@ spec:
             httpGet:
               path: /
               port: http
-          {{- if .Values.mysqlTls.enabled }}
+          {{- if or .Values.mysqlTls.enabled .Values.postgresqlTls.enabled }}
           volumeMounts:
+            {{- if .Values.mysqlTls.enabled }}
             - name: mysql-tls
               mountPath: {{ .Values.mysqlTls.mountPath | quote }}
               readOnly: true
@@ -61,17 +68,37 @@ spec:
               mountPath: /var/www/html/plugins-enabled/001-login-ssl.php
               subPath: 001-login-ssl.php
               readOnly: true
+            {{- end }}
+            {{- if .Values.postgresqlTls.enabled }}
+            - name: postgresql-tls
+              mountPath: {{ .Values.postgresqlTls.mountPath | quote }}
+              readOnly: true
+            - name: postgresql-tls-plugin
+              mountPath: /var/www/html/plugins-enabled/001-postgresql-login-ssl.php
+              subPath: 001-postgresql-login-ssl.php
+              readOnly: true
+            {{- end }}
           {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-      {{- if .Values.mysqlTls.enabled }}
+      {{- if or .Values.mysqlTls.enabled .Values.postgresqlTls.enabled }}
       volumes:
+        {{- if .Values.mysqlTls.enabled }}
         - name: mysql-tls
           secret:
             secretName: {{ required "mysqlTls.secretName is required when mysqlTls.enabled=true" .Values.mysqlTls.secretName | quote }}
         - name: mysql-tls-plugin
           configMap:
             name: {{ include "adminer.fullname" . }}-mysql-tls-plugin
+        {{- end }}
+        {{- if .Values.postgresqlTls.enabled }}
+        - name: postgresql-tls
+          secret:
+            secretName: {{ required "postgresqlTls.secretName is required when postgresqlTls.enabled=true" .Values.postgresqlTls.secretName | quote }}
+        - name: postgresql-tls-plugin
+          configMap:
+            name: {{ include "adminer.fullname" . }}-postgresql-tls-plugin
+        {{- end }}
       {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:

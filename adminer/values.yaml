@@ -107,3 +107,16 @@ mysqlTls:
   mountPath: /etc/mysql-tls
   # -- Filename of the CA certificate inside the mounted Secret.
   caFilename: ca.crt
+
+# -- Configure Adminer's login-ssl plugin and libpq/PDO environment for PostgreSQL servers that require TLS.
+postgresqlTls:
+  # -- Enable mounting the PostgreSQL CA Secret, setting PGSSL* environment, and loading the configured login-ssl plugin.
+  enabled: false
+  # -- Name of the Secret containing the CA file. Required when postgresqlTls.enabled is true.
+  secretName: ''
+  # -- Path where the PostgreSQL TLS Secret is mounted in the Adminer container.
+  mountPath: /etc/postgresql-tls
+  # -- Secret key containing the CA certificate.
+  caKey: ca.crt
+  # -- PostgreSQL sslmode value passed to PGSSLMODE and Adminer's login-ssl plugin.
+  sslMode: verify-ca

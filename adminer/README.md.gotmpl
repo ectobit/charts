@@ -55,6 +55,20 @@ mysqlTls:
   secretName: mysql-ca
 ```
 
+## PostgreSQL TLS
+
+Set `postgresqlTls.enabled=true` and `postgresqlTls.secretName` to mount a CA
+Secret, set `PGSSLMODE` and `PGSSLROOTCERT`, and load Adminer's `login-ssl`
+plugin for PostgreSQL connections.
+
+```yaml
+env:
+  ADMINER_DEFAULT_SERVER: postgresql
+postgresqlTls:
+  enabled: true
+  secretName: postgresql-ca
+```
+
 {{ template "chart.homepageLine" . }}
 
 {{ template "chart.maintainersSection" . }}
