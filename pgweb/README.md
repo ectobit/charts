@@ -1,8 +1,13 @@
 # pgweb
 
+> **:exclamation: This Helm Chart is deprecated!**
+
+> [!WARNING]
+> This chart is archived. It receives no updates or further development and remains available only for existing users.
+
 pgweb Helm chart for Kubernetes
 
-![Version: 0.1.10](https://img.shields.io/badge/Version-0.1.10-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.14.1](https://img.shields.io/badge/AppVersion-0.14.1-informational?style=flat-square)
+![Version: 0.1.11](https://img.shields.io/badge/Version-0.1.11-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.14.1](https://img.shields.io/badge/AppVersion-0.14.1-informational?style=flat-square)
 [![pgweb](https://github.com/ectobit/charts/actions/workflows/pgweb.yml/badge.svg)](https://github.com/ectobit/charts/actions/workflows/pgweb.yml)
 [![License](https://img.shields.io/badge/license-BSD--2--Clause--Patent-orange.svg)](https://github.com/ectobit/charts/blob/main/pgweb/LICENSE)
 

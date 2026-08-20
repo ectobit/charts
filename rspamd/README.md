@@ -1,8 +1,13 @@
 # rspamd
 
+> **:exclamation: This Helm Chart is deprecated!**
+
+> [!WARNING]
+> This chart is archived. It receives no updates or further development and remains available only for existing users.
+
 Rspamd Helm chart for Kubernetes
 
-![Version: 0.13.3](https://img.shields.io/badge/Version-0.13.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 4.0.1-alpine3.24.1](https://img.shields.io/badge/AppVersion-4.0.1--alpine3.24.1-informational?style=flat-square)
+![Version: 0.13.4](https://img.shields.io/badge/Version-0.13.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 4.0.1-alpine3.24.1](https://img.shields.io/badge/AppVersion-4.0.1--alpine3.24.1-informational?style=flat-square)
 [![rspamd](https://github.com/ectobit/charts/actions/workflows/rspamd.yml/badge.svg)](https://github.com/ectobit/charts/actions/workflows/rspamd.yml)
 [![License](https://img.shields.io/badge/license-BSD--2--Clause--Patent-orange.svg)](https://github.com/ectobit/charts/blob/main/rspamd/LICENSE)
 

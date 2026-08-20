@@ -2,7 +2,6 @@
 
 lint:
 	helm lint adminer
-	helm lint budgie
 	helm lint pgweb
 	helm lint rspamd
 
@@ -15,7 +14,6 @@ test-rspamd:
 gen-chart-docs:
 	helm-docs
 	prettier -w adminer/README.md
-	prettier -w budgie/README.md
 	prettier -w pgweb/README.md
 	prettier -w rspamd/README.md
 
